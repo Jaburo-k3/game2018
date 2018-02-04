@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class Player_moves : MonoBehaviour {
     Rigidbody rb;
-    public GameObject L_stick_obj;
+    public GameObject stick_obj;
     private L_Stick_Vec L_stick_vec;
-
+    private R_Stick_Vec R_stick_vec;
     public Vector2 stick_vec;
-
-    public float speed = 1.0f;
+    public GameObject Chara_obj;
+    public GameObject Camera_obj;
+    public float speed = 20f;
 	// Use this for initialization
 	void Start () {
-        L_stick_obj = this.gameObject;
-        L_stick_vec = L_stick_obj.GetComponent<L_Stick_Vec>();
+        stick_obj = this.gameObject;
+        L_stick_vec = stick_obj.GetComponent<L_Stick_Vec>();
+        R_stick_vec = stick_obj.GetComponent<R_Stick_Vec>();
         rb = this.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        stick_vec = L_stick_vec.stick_vec;
-        if (stick_vec.y >= 1.0) {
-            rb.velocity = new Vector3(speed * Mathf.Sin((stick_vec.x) * Mathf.PI), 0, speed * Mathf.Cos((stick_vec.x) * Mathf.PI));
+
+        if(Vector2.SqrMagnitude(L_stick_vec.stick_vec) > 0.1f)
+        {
+            Vector3 vec = this.gameObject.transform.position - Camera_obj.transform.position;
+            vec.y = 0f;
+            vec = vec.normalized;
+            rb.velocity = speed * vec * L_stick_vec.stick_vec.y + speed * Vector3.Cross(vec, Vector3.up) * L_stick_vec.stick_vec.x;
         }
-	}
+        
+    }
+
 }

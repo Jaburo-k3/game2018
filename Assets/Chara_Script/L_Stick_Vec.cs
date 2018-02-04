@@ -26,8 +26,7 @@ public class L_Stick_Vec : MonoBehaviour {
     {
         Clamp_S = S;
         Clamp_E = E;
-        Debug.Log("x=" + stick_vec.x);
-        Debug.Log("y=" + stick_vec.y);
+
     }
 
     // Update is called once per frame
@@ -35,8 +34,7 @@ public class L_Stick_Vec : MonoBehaviour {
     {
         if (stick_lock == false)
         {
-            stick_vec = new Vector2(Input.GetAxis("Horizontal") * -1, Input.GetAxis("Vertical") * -1) * Time.deltaTime * spinSpeed;
-            mouse_limit();
+            stick_vec = new Vector2(Input.GetAxis("Horizontal") * -1, Input.GetAxis("Vertical") * -1);
         }
         Debug.Log("x=" + stick_vec.x);
         Debug.Log("y=" + stick_vec.y);
