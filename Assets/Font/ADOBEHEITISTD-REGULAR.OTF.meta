@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6ed740d00cc2eaa40af1dbbe9d6b66cd
+timeCreated: 1507739649
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Adobe Heiti Std
+  fontNames:
+  - Adobe Heiti Std
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

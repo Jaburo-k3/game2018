@@ -1,0 +1,126 @@
+fileFormatVersion: 2
+guid: 21d239b65601b44489bbb950827abb58
+timeCreated: 1502810269
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: 0.!joint_Center
+    100002: 1.joint_hai_^bazu^ka
+    100004: 10.joint_tama2dai
+    100006: 11.joint_tama3
+    100008: 12.!joint_tama3dami^
+    100010: 13.joint_tama3dai
+    100012: 14.joint_tama4
+    100014: 15.!joint_tama4dami^
+    100016: 16.joint_tama4dai
+    100018: 17.joint_tama5
+    100020: 18.!joint_tama5dami^
+    100022: 19.joint_tama5dai
+    100024: 2.joint_HBUpperLower
+    100026: 20.!Root
+    100028: 3.!joint_juukoudami^
+    100030: 4.!joint_haikiguchidami^
+    100032: 5.joint_tama1
+    100034: 6.!joint_tama1dami^
+    100036: 7.joint_tama1dai
+    100038: 8.joint_tama2
+    100040: 9.!joint_tama2dami^
+    100042: U_Char
+    100044: //RootNode
+    400000: 0.!joint_Center
+    400002: 1.joint_hai_^bazu^ka
+    400004: 10.joint_tama2dai
+    400006: 11.joint_tama3
+    400008: 12.!joint_tama3dami^
+    400010: 13.joint_tama3dai
+    400012: 14.joint_tama4
+    400014: 15.!joint_tama4dami^
+    400016: 16.joint_tama4dai
+    400018: 17.joint_tama5
+    400020: 18.!joint_tama5dami^
+    400022: 19.joint_tama5dai
+    400024: 2.joint_HBUpperLower
+    400026: 20.!Root
+    400028: 3.!joint_juukoudami^
+    400030: 4.!joint_haikiguchidami^
+    400032: 5.joint_tama1
+    400034: 6.!joint_tama1dami^
+    400036: 7.joint_tama1dai
+    400038: 8.joint_tama2
+    400040: 9.!joint_tama2dami^
+    400042: U_Char
+    400044: //RootNode
+    4300000: U_Char
+    9500000: //RootNode
+    13700000: U_Char
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
