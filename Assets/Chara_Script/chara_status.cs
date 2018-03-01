@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class chara_status : MonoBehaviour {
     public float HP;
-    public float normalspeed = 0.1f;
-    public float boostspeed = 0.1f;
-    public float boost_max_speed = 0.35f;
+    public float speed_max;//スピード上限
+    public float acceleration;//加速度
+    public float boost_acceleration;//ブースト加速度
+    public float normal_speed_max;//通常時のスピード上限
+    public float boost_speed_max;//ブースト時のスピード上限
+    public float quick_boost_speed_max;//クイックブーストのスピード
+    public float rising_speed;
     public string Terrain_State;
+
+    public float normalspeed;
+    public float boostspeed;
+    public float boost_max_speed;
+
+    public string ground_condition;
+
+    public float move_lock = 0;
 
     public GameObject camera_obj;
 

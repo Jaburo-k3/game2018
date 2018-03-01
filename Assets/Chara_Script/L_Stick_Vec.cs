@@ -34,9 +34,7 @@ public class L_Stick_Vec : MonoBehaviour {
     {
         if (stick_lock == false)
         {
-            stick_vec = new Vector2(Input.GetAxis("Horizontal") * -1, Input.GetAxis("Vertical") * -1);
+            stick_vec = new Vector2(Input.GetAxis("Horizontal") * -1, Input.GetAxis("Vertical") );
         }
-        Debug.Log("x=" + stick_vec.x);
-        Debug.Log("y=" + stick_vec.y);
     }
 }

@@ -12,6 +12,7 @@ public class Character : MonoBehaviour {
     public float mouse_save;
     public int boost_style = 0;
 
+
     public Vector3 initial_Vec = Vector3.zero;
 
 

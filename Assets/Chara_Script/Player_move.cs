@@ -57,9 +57,8 @@ public class Player_move : MonoBehaviour {
     public string left = "left";
     public string right = "right";
 
-
-    public GameObject R_stick_obj;
-    private R_Stick_Vec R_stick_vec;
+    public GameObject mouse_obj;
+    private mouse_Vec mouse_Vec;
 
     public bool move_lock = false;
     public bool gravity_lock = false;
@@ -1082,9 +1081,8 @@ public class Player_move : MonoBehaviour {
 
         rb = GetComponent<Rigidbody>();
 
-        R_stick_obj = this.gameObject;
+        mouse_Vec = mouse_obj.GetComponent<mouse_Vec>();
 
-        R_stick_vec = R_stick_obj.GetComponent<R_Stick_Vec>();
         ignore_layer = ~(1 << gameObject.layer | 1 << LayerMask.NameToLayer("enemy_bullet") | 1 << LayerMask.NameToLayer("Ignore Raycast")|1 << LayerMask.NameToLayer("Water") );
         Cap_Collider = this.GetComponent<CapsuleCollider>();
 
@@ -1098,7 +1096,7 @@ public class Player_move : MonoBehaviour {
         boost_style_end();
         if (move_lock == false)
         {
-            mouse = R_stick_vec.stick_vec;
+            mouse = mouse_Vec.mouse;
             //mouse += new Vector2(Input.GetAxis("Mouse X") * -1,0) * Time.deltaTime * spinSpeed;
 
             /*

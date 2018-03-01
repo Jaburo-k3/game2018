@@ -6,9 +6,9 @@ TagManager:
   tags:
   - object
   - enemy
-  - a
   - bullet
   - environment
+  - terrain
   layers:
   - Default
   - TransparentFX
