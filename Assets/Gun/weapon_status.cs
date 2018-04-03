@@ -7,8 +7,10 @@ public class weapon_status : MonoBehaviour {
 
     public float attack;
 
-    public int cool_time;
-    public int cool_const;
+    public float bullet_speed;
+
+    public float cool_time = 0;
+    public float cool_const;
 
     public float bullet_counter = 100;
     public float bullet_one_shot = 10;
@@ -21,7 +23,6 @@ public class weapon_status : MonoBehaviour {
     public bool shot_lock = false;
     public GameObject parent_obj;
     public string parent_name;
-
 
     public float get_bullet_counter_max() {
         return bullet_counter_max;

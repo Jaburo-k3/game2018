@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class assemble_status : MonoBehaviour {
-    static public int[] my_weapon_number = {0,1,2};
+    static public int[] my_weapon_number = {0,1,4};
 
     public float attack;
     public float save_attack;
 
-    public int cool_time;
-    public int save_cool_time;
+    public float cool_time;
+    public float save_cool_time;
 
-    public int cool_const;
-    public int save_cool_const;
+    public float cool_const;
+    public float save_cool_const;
 
     public float bullet_counter = 100;
     public float save_bullet_counter = 100;

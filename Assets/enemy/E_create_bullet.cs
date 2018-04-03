@@ -16,10 +16,10 @@ public class E_create_bullet : MonoBehaviour {
     private Attack Attack;
 
     public float spinSpeed = 1.0f;
-    public float bullet_speed = 200f;
+    public float bullet_speed = 400f;
     private float bullet_mass;
     private bullet Bullet;
-
+    private bullet_status Bullet_status;
     public GameObject target;
     public GameObject center_point;
     public Vector3 target_speed;
@@ -78,7 +78,8 @@ public class E_create_bullet : MonoBehaviour {
                     //Debug.Log("after" + target_after_pos);
 
                     bullet_obj = Instantiate(bullets, gun_pos, Quaternion.identity);
-
+                    Bullet_status = bullet_obj.GetComponent<bullet_status>();
+                    Bullet_status.bullet_speed = bullet_speed;
                     //bullet_obj.transform.position = transform.position;
                     bullet_obj.transform.LookAt(target_after_pos);
                     bullet_obj.layer = parent.layer;

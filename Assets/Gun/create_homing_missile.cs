@@ -21,11 +21,14 @@ public class create_homing_missile : MonoBehaviour {
     private weapon_switching W_switching;
     private Homing_Missile homing_missile;
     private Attack attack;
+    private bullet_status Bullet_status;
 
     private create_hit_marker C_Hit_Marker;
 
     //private AudioSource AudioSource;
     public AudioClip homingmissile_sound;
+
+    Coroutine CC_Missile;
 
     public int get_cool_const()
     {
@@ -45,7 +48,7 @@ public class create_homing_missile : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.shot_lock == false
+        if (W_status.shot_lock == false
             && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
@@ -55,15 +58,26 @@ public class create_homing_missile : MonoBehaviour {
             return false;
         }
     }
+
     //
     void C_Missile(int number)
     {
+        if (!shot_permission())
+        {
+            if (CC_Missile != null)
+            {
+                StopCoroutine(CC_Missile);
+            }
+            return;
+        }
         AudioSource AudioSource;
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = homingmissile_sound;
         AudioSource.volume = 0.1f;
         AudioSource.Play();
         missile_obj = Instantiate(missile, this.transform.position, Quaternion.identity);
+        Bullet_status = missile_obj.GetComponent<bullet_status>();
+        Bullet_status.bullet_speed = W_status.bullet_speed;
         missile_obj.tag = "bullet";
         missile_obj.layer = gameObject.layer;
         missile_obj.transform.position = muzzle[number].transform.position;
@@ -81,22 +95,33 @@ public class create_homing_missile : MonoBehaviour {
         attack.attack = W_status.attack;
         W_status.bullet_counter -= W_status.bullet_one_shot;
 
-        W_status.cool_time = W_status.cool_const;
-
         set_C_Hit_Marker(missile_obj);
         Debug.Log(W_status.bullet_counter);
 
     }
     IEnumerator Missile()
     {
-        for (int i = 0; i < muzzle.Length/multiple_firing; i++)
+        for (int i = 0; i < muzzle.Length / multiple_firing; i++)
         {
+            target = Lockon.target_obj;
             yield return new WaitForSeconds(delay);
-            for (int j = 0; j < multiple_firing; j++) {
+            for (int j = 0; j < multiple_firing; j++)
+            {
                 C_Missile(i * 4 + j);
             }
         }
-        target = null;
+        while (true) {
+            yield return new WaitForSeconds(W_status.cool_const);
+            for (int i = 0; i < muzzle.Length / multiple_firing; i++)
+            {
+                target = Lockon.target_obj;
+                yield return new WaitForSeconds(delay);
+                for (int j = 0; j < multiple_firing; j++)
+                {
+                    C_Missile(i * 4 + j);
+                }
+            }
+        }
 
     }
     // Use this for initialization
@@ -115,15 +140,42 @@ public class create_homing_missile : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (W_status.cool_time > 0)
+        if (W_status.cool_time > 0.0f)
         {
-            W_status.cool_time -= 1;
+            W_status.cool_time -= 1 * Time.deltaTime;
+            if (W_status.cool_time < 0)
+            {
+                W_status.cool_time = 0;
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && shot_permission())
+        if (Input.GetButtonDown("button4"))
         {
-            target = Lockon.target_obj_save;
-            StartCoroutine("Missile");
+            //Input.GetButtonDown("button4") && W_status.get_my_weapon_number() == W_switching.weapon_number
+            CC_Missile = StartCoroutine(Missile());
+        }
+        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
+        {
+            //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
+            CC_Missile = StartCoroutine(Missile());
+            W_switching.weapon_change = false;
+        }
+        else if (Input.GetButtonUp("button4") && CC_Missile != null) {
+            //Input.GetButtonUp("button4") && CC_Missile != null && W_status.get_my_weapon_number() == W_switching.weapon_number
+            StopCoroutine(CC_Missile);
+            CC_Missile = null;
+            target = null;
+            W_status.cool_time = W_status.cool_const;
+        }
+        else if (Input.GetButton("button4") && CC_Missile != null)
+        {
+            //Input.GetButton("button4") && W_status.get_my_weapon_number() != W_switching.weapon_number && CC_Missile != null
+            StopCoroutine(CC_Missile);
+            CC_Missile = null;
+            if (W_status.cool_time == 0)
+            {
+                W_status.cool_time = W_status.cool_const;
+            }
         }
     }
 }

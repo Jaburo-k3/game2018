@@ -573,6 +573,7 @@ MonoBehaviour:
   - {fileID: 1721485897}
   - {fileID: 995661973}
   - {fileID: 851264340}
+  - {fileID: 851264340}
   E_text:
   - {fileID: 1132947352}
   - {fileID: 582828780}
@@ -581,16 +582,20 @@ MonoBehaviour:
   - {fileID: 377025214}
   - {fileID: 2025016916}
   - {fileID: 547945844}
+  - {fileID: 547945844}
+  shoulder_weapon_variation: 4
   Exit: []
   Exit_text: []
   weapon_slot: 0
   weapon_number: 0
+  shoulder_weapon_number: 0
   center_list: 010000000300000005000000
   center_number: 0
   top_distance: 010000000200000002000000
   mode_change: 0
   Exit_mode: 0
   Stage_mode: 0
+  shoulder_weapon_select: 0
   weapon_list: []
   weapon_tex:
   - {fileID: 21300000, guid: e07fb690cc4a86943a1ba59ae05889d3, type: 3}
@@ -599,6 +604,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dbe1ac2b0e7885c409ac264a65114d62, type: 3}
   - {fileID: 21300000, guid: 927ec7e893d533c4ca2ff553f6f46737, type: 3}
   - {fileID: 21300000, guid: 635b26fa36880d84e900a673b5f39286, type: 3}
+  - {fileID: 21300000, guid: 16ab989f760c88446865df9a0f0fcfec, type: 3}
   - {fileID: 21300000, guid: 16ab989f760c88446865df9a0f0fcfec, type: 3}
   indicate_list: 
   E_weapon_number: 
@@ -648,6 +654,7 @@ MonoBehaviour:
   - {fileID: 1286100398142602, guid: 551c5840a6345db4a88ccf7c8186cc64, type: 2}
   - {fileID: 1411512498514100, guid: 40902797d6b4b97499eb970f6fdada8b, type: 2}
   - {fileID: 1561046286595142, guid: 2c6f4f19459ffd743b76fa3b6ae54f31, type: 2}
+  - {fileID: 1896684225728478, guid: a8058b1d04b520647a9a36634026608b, type: 2}
   - {fileID: 1896684225728478, guid: a8058b1d04b520647a9a36634026608b, type: 2}
   status_texts_source:
   - {fileID: 432506533}
@@ -1052,7 +1059,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Weapon 3
+  m_Text: Sholder
 --- !u!222 &236882133
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6187,6 +6194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   my_weapon_number: 0
   attack: 0
+  bullet_speed: 0
   cool_time: 0
   cool_const: 10
   bullet_counter: 100
@@ -6372,6 +6380,7 @@ MonoBehaviour:
   - {fileID: 1615212866}
   - {fileID: 434537043}
   - {fileID: 241515243}
+  - {fileID: 1806409680}
   - {fileID: 1806409680}
   E_weapon: []
   E_right_weapon:
@@ -9498,6 +9507,7 @@ MonoBehaviour:
   - {x: 0, y: 0.7}
   - {x: 1, y: 0.7}
   - {x: 0, y: 0.7}
+  - {x: 0, y: 0.4}
   - {x: 0, y: 0.4}
 --- !u!4 &2022445800 stripped
 Transform:

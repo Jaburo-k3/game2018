@@ -15,9 +15,11 @@ public class Missile_Pod : MonoBehaviour {
 
     public GameObject[] muzzle;
     private Aiming_system A_sys;
+    private lockon Lockon;
     private weapon_status W_status;
     private weapon_switching W_switching;
     private Attack attack;
+    private bullet_status Bullet_status;
 
     private create_hit_marker C_Hit_Marker;
 
@@ -42,14 +44,23 @@ public class Missile_Pod : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.shot_lock == false
-            && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
         }
         else
         {
             return false;
+        }
+    }
+    void lookat_bullet(GameObject bullet,int muzzle_numer)
+    {
+        if (Lockon.target_obj != null)
+        {
+            missile_obj.transform.LookAt(Lockon.deviation_shot(muzzle[muzzle_numer].transform.position, Bullet_status.bullet_speed, bullet.GetComponent<Rigidbody>().mass));
+        }
+        else {
+            missile_obj.transform.LookAt(A_sys.target);
         }
     }
     //
@@ -61,11 +72,14 @@ public class Missile_Pod : MonoBehaviour {
         AudioSource.volume = 0.3f;
         AudioSource.Play();
         missile_obj = Instantiate(missile, this.transform.position, Quaternion.identity);
+        Bullet_status = missile_obj.GetComponent<bullet_status>();
+        Bullet_status.bullet_speed = W_status.bullet_speed;
         missile_obj.tag = "bullet";
         missile_obj.layer = gameObject.layer;
         missile_obj.transform.position = muzzle[number].transform.position;
         Vector3 target_pos = A_sys.target - transform.transform.position;
-        missile_obj.transform.LookAt(missile_obj.transform.position + target_pos);
+        lookat_bullet(missile_obj,number);
+        //missile_obj.transform.LookAt(missile_obj.transform.position + target_pos);
         attack.attack = W_status.attack;
         W_status.bullet_counter -= W_status.bullet_one_shot;
 
@@ -90,6 +104,7 @@ public class Missile_Pod : MonoBehaviour {
         parent = transform.root.gameObject;
         W_status = this.GetComponent<weapon_status>();
         A_sys = GameObject.Find("Main Camera").GetComponent<Aiming_system>();
+        Lockon = GameObject.Find("Main Camera").GetComponent<lockon>();
         W_switching = parent.GetComponent<weapon_switching>();
         attack = missile.GetComponent<Attack>();
     }
@@ -99,12 +114,22 @@ public class Missile_Pod : MonoBehaviour {
     {
         if (W_status.cool_time > 0)
         {
-            W_status.cool_time -= 1;
+            W_status.cool_time -= 1 * Time.deltaTime;
+            if (W_status.cool_time < 0)
+            {
+                W_status.cool_time = 0;
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && shot_permission())
+        if (Input.GetButtonDown("button4") && shot_permission())
         {
-            StartCoroutine("Missile");
+            StartCoroutine(Missile());
+        }
+        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
+        {
+            //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
+            StartCoroutine(Missile());
+            W_switching.weapon_change = false;
         }
     }
 }

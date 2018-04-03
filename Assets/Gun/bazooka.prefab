@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 114117141074826154}
   - component: {fileID: 199881018653021864}
   - component: {fileID: 198161425255573060}
+  - component: {fileID: 114615676965613232}
   m_Layer: 0
   m_Name: bazooka
   m_TagString: Untagged
@@ -213,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32adce38997e766479840e25059ff78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 30
+  attack: 18
 --- !u!114 &114153305929917358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -253,6 +254,18 @@ MonoBehaviour:
     m_Bits: 4294966267
   Hit_Marker_obj: {fileID: 0}
   permission_hit_marker: 1
+--- !u!114 &114615676965613232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210361660113716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7cbb9e011044e45b57b0ffc320502d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet_speed: 0
 --- !u!135 &135444011448330614
 SphereCollider:
   m_ObjectHideFlags: 1

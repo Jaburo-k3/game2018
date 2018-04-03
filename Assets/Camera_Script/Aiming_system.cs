@@ -24,14 +24,14 @@ public class Aiming_system : MonoBehaviour {
         center_point = GameObject.Find("Player/center_point");
         ignore_layer = ~(1 << gameObject.layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
 
-        ray = new Ray(new Vector3(Player_object.position.x, center_point.transform.position.y + 2, Player_object.position.z), transform.forward);
+        ray = new Ray(new Vector3(Player_object.position.x, center_point.transform.position.y + 2f, Player_object.position.z), transform.forward);
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (Camera_sc.mode_snipe == false)
         {
-            ray = new Ray(new Vector3(Player_object.position.x, center_point.transform.position.y + 1f, Player_object.position.z), transform.forward);
+            ray = new Ray(new Vector3(Player_object.position.x, center_point.transform.position.y + 2f, Player_object.position.z), transform.forward);
         }
         else if(Camera_sc.mode_snipe == true){
             //ray = new Ray(new Vector3(Player_object.position.x, Player_object.position.y, Player_object.position.z), transform.forward);

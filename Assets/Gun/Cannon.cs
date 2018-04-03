@@ -16,11 +16,13 @@ public class Cannon : MonoBehaviour {
     public bool shot_now = false;
 
     public GameObject[] muzzle;
-    private Player_move player_move;
     private Aiming_system A_sys;
+    private lockon Lockon;
     private weapon_status W_status;
     private weapon_switching W_switching;
     private Attack attack;
+    private bullet_status Bullet_status;
+    private chara_status Chara_status;
 
     private bullet Bullet;
 
@@ -28,6 +30,8 @@ public class Cannon : MonoBehaviour {
 
     private AudioSource AudioSource;
     public AudioClip Bullet_sound;
+    public Rigidbody rb;
+    public float knock_back;
     public int get_cool_const()
     {
         return cool_const;
@@ -46,8 +50,7 @@ public class Cannon : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.shot_lock == false
-            && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
         }
@@ -56,41 +59,51 @@ public class Cannon : MonoBehaviour {
             return false;
         }
     }
+    void lookat_bullet(GameObject bullet,int muzzle_number)
+    {
+        if (Lockon.target_obj != null)
+        {
+            bullet_obj.transform.LookAt(Lockon.deviation_shot(muzzle[muzzle_number].transform.position, Bullet_status.bullet_speed, bullet.GetComponent<Rigidbody>().mass));
+        }
+        else {
+            bullet_obj.transform.LookAt(A_sys.target);
+        }
+    }
     //
     IEnumerator C_bullet()
     {
-        player_move.move_lock = true;
-        player_move.gravity_lock = true;
         yield return new WaitForSeconds(shot_time/2);
         for (int i = 0; i < muzzle.Length; i++) {
             AudioSource.Play();
             bullet_obj = Instantiate(bullet, this.transform.position, Quaternion.identity);
+            Bullet_status = bullet_obj.GetComponent<bullet_status>();
+            Bullet_status.bullet_speed = W_status.bullet_speed;
             bullet_obj.tag = "bullet";
             bullet_obj.layer = gameObject.layer;
             bullet_obj.transform.position = muzzle[i].transform.position;
-            bullet_obj.transform.LookAt(A_sys.target);
+            lookat_bullet(bullet_obj,i);
+            //bullet_obj.transform.LookAt(A_sys.target);
             attack.attack = W_status.attack;
             W_status.bullet_counter -= W_status.bullet_one_shot / muzzle.Length;
 
             W_status.cool_time = W_status.cool_const;
-
+            rb = parent.GetComponent<Rigidbody>();
+            rb.AddForce(new Vector3(parent.transform.forward.x * knock_back * -1,0, parent.transform.forward.z * knock_back * -1));
             set_C_Hit_Marker(bullet_obj);
+
         }
-        yield return new WaitForSeconds(shot_time / 2);
-        player_move.move_lock = false;
-        player_move.gravity_lock = false;
         shot_now = false;
         transform.Rotate(-25, 0, 0);
-        Debug.Log(player_move.move_lock);
 
     }
     // Use this for initialization
     void Start()
     {
         parent = transform.root.gameObject;
-        player_move = parent.GetComponent<Player_move>();
         W_status = this.GetComponent<weapon_status>();
+        Chara_status = parent.GetComponent<chara_status>();
         A_sys = GameObject.Find("Main Camera").GetComponent<Aiming_system>();
+        Lockon = GameObject.Find("Main Camera").GetComponent<lockon>();
         W_switching = parent.GetComponent<weapon_switching>();
         attack = bullet.GetComponent<Attack>();
         AudioSource = gameObject.AddComponent<AudioSource>();
@@ -101,16 +114,26 @@ public class Cannon : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (W_status.cool_time > 0)
+        if (W_status.cool_time > 0.0f)
         {
-            W_status.cool_time -= 1;
+            W_status.cool_time -= 1 * Time.deltaTime;
+            if (W_status.cool_time < 0)
+            {
+                W_status.cool_time = 0;
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && shot_permission() && shot_now == false)
+        if (Input.GetButtonDown("button4") && shot_permission() && shot_now == false)
         {
             shot_now = true;
             transform.Rotate(25, 0, 0);
-            StartCoroutine("C_bullet");
+            StartCoroutine(C_bullet());
+        }
+        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
+        {
+            //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
+            StartCoroutine(C_bullet());
+            W_switching.weapon_change = false;
         }
     }
 }

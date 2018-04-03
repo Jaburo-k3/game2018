@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 96667520420610186}
   - component: {fileID: 114789092943964616}
   - component: {fileID: 114753647977313424}
+  - component: {fileID: 114743649337244736}
   m_Layer: 0
   m_Name: gatling_bullet
   m_TagString: Untagged
@@ -462,6 +463,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Bullet_sound: {fileID: 0}
+--- !u!114 &114743649337244736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1236000914359054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7cbb9e011044e45b57b0ffc320502d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet_speed: 0
 --- !u!114 &114753647977313424
 MonoBehaviour:
   m_ObjectHideFlags: 1

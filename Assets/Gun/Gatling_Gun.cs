@@ -18,13 +18,17 @@ public class Gatling_Gun : MonoBehaviour {
     public GameObject[] muzzle;
     public float spinSpeed = 1.0f;
     private Aiming_system A_sys;
+    private lockon Lockon;
     private weapon_status W_status;
     private weapon_switching W_switching;
+    private bullet_status Bullet_status;
 
     private create_hit_marker C_Hit_Marker;
 
     private AudioSource AudioSource;
     public AudioClip Gatling_sound;
+
+    Coroutine C_Gatling;
 
     void set_C_Hit_Marker(GameObject obj)
     {
@@ -45,41 +49,59 @@ public class Gatling_Gun : MonoBehaviour {
             return false;
         }
     }
+    void lookat_bullet(GameObject bullet, int muzzle_number)
+    {
+        if (Lockon.target_obj != null)
+        {
+            bullet_obj.transform.LookAt(Lockon.deviation_shot(muzzle[muzzle_number].transform.position, Bullet_status.bullet_speed, bullet.GetComponent<Rigidbody>().mass));
+        }
+        else {
+            bullet_obj.transform.LookAt(A_sys.target);
+        }
+    }
+
     //IEnumerator
     //
     void C_bullet(int number) {
+        if (!shot_permission()) {
+            return;
+        }
         bullet_obj = Instantiate(bullets, this.transform.position, Quaternion.identity);
+        Bullet_status = bullet_obj.GetComponent<bullet_status>();
+        Bullet_status.bullet_speed = W_status.bullet_speed;
         bullet_obj.tag = "bullet";
         bullet_obj.layer = gameObject.layer;
         bullet_obj.transform.position = muzzle[number].transform.position;
         attack.attack = W_status.attack;
-        bullet_obj.transform.LookAt(A_sys.target);
+        lookat_bullet(bullet_obj,number);
+        //bullet_obj.transform.LookAt(A_sys.target);
 
         W_status.bullet_counter -= W_status.bullet_one_shot;
-        W_status.cool_time = W_status.cool_const;
 
         set_C_Hit_Marker(bullet_obj);
     }
     IEnumerator Gatling()
     {
         AudioSource.Play();
-        //Debug.Log("Do");
-        for (int i = 0; i < burst; i++)
+        for (int j = 0; j < muzzle.Length; j++)
         {
+            C_bullet(j);
+        }
+
+        while (true) {
             if (W_status.get_my_weapon_number() != W_switching.weapon_number || W_status.bullet_counter < W_status.bullet_one_shot)
             {
                 Debug.Log("break");
                 break;
             }
             yield return new WaitForSeconds(burst_time);
-            for (int j = 0; j < muzzle.Length; j++) {
+
+            for (int j = 0; j < muzzle.Length; j++)
+            {
                 C_bullet(j);
-                //Debug.Log("1");
             }
-            //Debug.Log("for");
         }
         AudioSource.Stop();
-        //Debug.Log("end");
     }
     // Use this for initialization
     void Start()
@@ -87,26 +109,55 @@ public class Gatling_Gun : MonoBehaviour {
         parent = transform.root.gameObject;
         W_status = this.GetComponent<weapon_status>();
         A_sys = GameObject.Find("Main Camera").GetComponent<Aiming_system>();
+        Lockon = GameObject.Find("Main Camera").GetComponent<lockon>();
         W_switching = parent.GetComponent<weapon_switching>();
         attack = bullets.GetComponent<Attack>();
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Gatling_sound;
         AudioSource.volume = 0.2f;
+        AudioSource.loop = true;
+
+        burst_time = W_status.cool_const;
         //mouse.y = 0.3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (W_status.cool_time > 0)
+        if (W_status.cool_time > 0.0f)
         {
-            W_status.cool_time -= 1;
+            W_status.cool_time -= 1 * Time.deltaTime;
+            if (W_status.cool_time < 0)
+            {
+                W_status.cool_time = 0;
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && shot_permission())
+        if (Input.GetButtonDown("button5"))
         {
-            
-            StartCoroutine("Gatling");
+            C_Gatling = StartCoroutine(Gatling());
+        }
+        else if (Input.GetButton("button5") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0)
+        {
+            C_Gatling = StartCoroutine(Gatling());
+            W_switching.weapon_change = false;
+        }
+        else if (Input.GetButtonUp("button5")) {
+            StopCoroutine(C_Gatling);
+            W_status.cool_time = W_status.cool_const;
+            C_Gatling = null;
+            AudioSource.Stop();
+        }
+        else if (Input.GetButton("button5") && W_status.get_my_weapon_number() != W_switching.weapon_number && C_Gatling != null)
+        {
+            StopCoroutine(C_Gatling);
+            W_status.cool_time = W_status.cool_const;
+            C_Gatling = null;
+            AudioSource.Stop();
+            if (W_status.cool_time == 0)
+            {
+                W_status.cool_time = W_status.cool_const;
+            }
         }
         /*
         if (W_status.bullet_counter <= 0) {

@@ -43,7 +43,7 @@ public class assemble_camera : MonoBehaviour {
     public bool camera_lock = true;
 
     public void move() {
-        Cor = StartCoroutine(test());
+        Cor = StartCoroutine(camera_move());
         //StartCoroutine("test");
     }
     public void end_coroutine() {
@@ -51,7 +51,7 @@ public class assemble_camera : MonoBehaviour {
     }
 
     //
-    IEnumerator test()
+    IEnumerator camera_move()
     {
         yield return new WaitForSeconds(1f / 2f);
         angle.x = save_angle.x;

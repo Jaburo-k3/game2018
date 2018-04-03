@@ -232,7 +232,7 @@ public class camera : MonoBehaviour {
             transform.position = pos + target_object.position;
             save_pos = pos + target_object.position;
 
-            Vector3 look_pos = new Vector3(target_object.position.x, center_point.transform.position.y + 1f, target_object.position.z);
+            Vector3 look_pos = new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z);
 
             transform.LookAt(look_pos);
         }

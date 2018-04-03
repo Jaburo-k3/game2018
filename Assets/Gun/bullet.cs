@@ -93,6 +93,8 @@ public class bullet : MonoBehaviour {
 
         attack = this.GetComponent<Attack>();
 
+        speed = this.GetComponent<bullet_status>().bullet_speed;
+
         //■■■Rayで無視するlayerの設定■■■
         if (this.gameObject.layer == LayerMask.NameToLayer("enemy_bullet")){
             ignore_layer = ~(1 << gameObject.layer | 1 << LayerMask.NameToLayer("enemy") | 1 << LayerMask.NameToLayer("Ignore Raycast"));

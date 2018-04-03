@@ -504,8 +504,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   my_weapon_number: 0
   attack: 35
+  bullet_speed: 100
   cool_time: 0
-  cool_const: 40
+  cool_const: 3
   bullet_counter: 100
   bullet_one_shot: 25
   reload_type: 1
@@ -543,3 +544,5 @@ MonoBehaviour:
   muzzle:
   - {fileID: 1049374772103208}
   Bullet_sound: {fileID: 8300000, guid: 122a4f6454651d34085c914998a26028, type: 3}
+  rb: {fileID: 0}
+  knock_back: 10000

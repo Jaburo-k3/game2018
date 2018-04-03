@@ -23,11 +23,14 @@ public class assemble_weapon_manage : MonoBehaviour {
     public Image[] weapon;
     public Text[] E_text;
 
+    public int shoulder_weapon_variation;
+
     public Image[] Exit;
     public Text[] Exit_text;
 
     public int weapon_slot = 0;
     public int weapon_number = 0;
+    public int shoulder_weapon_number = 0;
 
     public int[] center_list = {1,3,5};
     public int center_number;
@@ -37,6 +40,7 @@ public class assemble_weapon_manage : MonoBehaviour {
     public bool mode_change = false;
     public bool Exit_mode = false;
     public bool Stage_mode = false;
+    public bool shoulder_weapon_select;
 
     public List<Image> weapon_list;
     public Sprite[] weapon_tex;
@@ -45,10 +49,14 @@ public class assemble_weapon_manage : MonoBehaviour {
     public List<int> E_weapon_number;
     public List<Text> E_text_list;
 
+    Vector2 cross_vec_save = Vector2.zero;
+    Vector2 stick_vec_save = Vector2.zero;
+
     public AudioSource SE;
     public AudioClip[] SE_clip;
 
     public GameObject BGM;
+    
 
     //表示する番号のセット //変更済み
     void set_indicate_list()
@@ -58,27 +66,46 @@ public class assemble_weapon_manage : MonoBehaviour {
 
         //入れる値の頭
         int number = weapon_number - top_distance[weapon_slot];
-        //int number = assemble_status.my_weapon_number[weapon_slot] - top_distance[weapon_slot];
-        //上限のチェック
-        if (number < 0)
+        int length;
+        if (!shoulder_weapon_select)
         {
-            int over = top_distance[weapon_slot] - weapon_number;
-            number = (weapon.Length) - over;
+            length = weapon.Length - shoulder_weapon_variation;
+            //上限のチェック
+            if (number < 0) {
+                int over = Mathf.Abs(number);
+                number = length - over;
+            }
         }
+        else {
+            length = shoulder_weapon_variation;
+            //上限のチェック
+            if (number < weapon.Length - shoulder_weapon_variation) {
+                Debug.Log("number = " + number);
+                Debug.Log("top_distance[weapon_slot] = " + top_distance[weapon_slot]);
+                Debug.Log("over" + (weapon_number - top_distance[weapon_slot]));
+                int over = Mathf.Abs((weapon_number - top_distance[weapon_slot]) - shoulder_weapon_variation);
+                number = weapon.Length - over;
+            }
+        }
+        //int number = assemble_status.my_weapon_number[weapon_slot] - top_distance[weapon_slot];
         //セット
         for (int i = 0; i < 4; i++)
         {
             indicate_list.Add(number);
 
             number += 1;
-            if (number > weapon.Length - 1)
+            if (!shoulder_weapon_select && number > weapon.Length - 1 - shoulder_weapon_variation)
             {
                 number = 0;
+            }
+            else if (shoulder_weapon_select && number > weapon.Length - 1) {
+                number = weapon.Length - shoulder_weapon_variation;
             }
         }
 
     }
 
+    //
     public void E_text_set() {
         E_weapon_number.Clear();
         for (int i = 0; i < assemble_status.my_weapon_number.Length; i++) {
@@ -99,15 +126,6 @@ public class assemble_weapon_manage : MonoBehaviour {
                 E_text_list[i].enabled = true;
             }
         }
-            /*
-            if (E_weapon_number.Contains(i))
-            {
-                E_text[i].enabled = true;
-            }
-            else {
-                E_text[i].enabled = false;
-            }
-            */
     }
     //全テキスト不可視化
     public void all_E_text_clear() {
@@ -150,9 +168,13 @@ public class assemble_weapon_manage : MonoBehaviour {
             weapon_list.Add(weapon[number]);
             E_text_list.Add(E_text[number]);
             number += 1;
-            if (number > weapon.Length - 1)
+            if (!shoulder_weapon_select && number > weapon.Length - 1 - shoulder_weapon_variation)
             {
                 number = 0;
+            }
+            else if (shoulder_weapon_select && number > weapon.Length - 1)
+            {
+                number = weapon.Length - shoulder_weapon_variation;
             }
         }
     }
@@ -162,6 +184,7 @@ public class assemble_weapon_manage : MonoBehaviour {
     {
         for (int i = 0; i < 4; i++)
         {
+            
             weapon_list[i].sprite = weapon_tex[indicate_list[i]];
         }
     }
@@ -263,7 +286,6 @@ public class assemble_weapon_manage : MonoBehaviour {
     void now_status_update(int number) {
         Status_Text.now_status_update(number);
     }
-
 
 
 
@@ -406,6 +428,14 @@ public class assemble_weapon_manage : MonoBehaviour {
             weapon_slot = assemble_status.my_weapon_number.Length;
         }
 
+        if (weapon_slot == 2)
+        {
+            shoulder_weapon_select = true;
+        }
+        else {
+            shoulder_weapon_select = false;
+        }
+
 
 
         //Startボタンにいない
@@ -414,9 +444,7 @@ public class assemble_weapon_manage : MonoBehaviour {
             center_update();
 
             W_FL_Up.flame_update(weapon_slot);
-            Debug.Log("start" + weapon_number);
             weapon_number_update();
-            Debug.Log("end" + weapon_number);
 
             set_weapon_list();
             set_indicate_list();
@@ -437,7 +465,6 @@ public class assemble_weapon_manage : MonoBehaviour {
         }
         //Startボタンにいる
         else {
-            Debug.Log("Startボタンにいる");
             W_FL_Up.flame_update(assemble_status.my_weapon_number.Length);
             camera_update();
         }
@@ -449,6 +476,7 @@ public class assemble_weapon_manage : MonoBehaviour {
 
     //武器タブ移動
     public void weapon_tab_move() {
+        /*
         if (weapon_number > weapon.Length - 1)
         {
             weapon_number = 0;
@@ -456,10 +484,27 @@ public class assemble_weapon_manage : MonoBehaviour {
         else if (weapon_number < 0) {
             weapon_number = weapon.Length - 1;
         }
+        */
 
+
+        if (!shoulder_weapon_select && weapon_number > weapon.Length - 1 - shoulder_weapon_variation)
+        {
+            weapon_number = 0;
+        }
+        else if (!shoulder_weapon_select && weapon_number < 0)
+        {
+            weapon_number = weapon.Length - 1 - shoulder_weapon_variation;
+        }
+        else if (shoulder_weapon_select && weapon_number > weapon.Length - 1)
+        {
+            weapon_number = weapon.Length - shoulder_weapon_variation;
+        }
+        else if (shoulder_weapon_select && weapon_number < weapon.Length - shoulder_weapon_variation) {
+            weapon_number = weapon.Length - 1;
+        }
 
         set_indicate_list();
-        W_T_B_number_update();
+        //W_T_B_number_update();
         indicate();
         E_text_set();
         //my_weapon_number_update();
@@ -543,6 +588,121 @@ public class assemble_weapon_manage : MonoBehaviour {
         }
         SceneManager.LoadScene("loading_world");
     }
+
+    //十字キー、アナログパッドボタン化
+    string crossorstick_buttondown_system()
+    {
+        //■■■■■■■■■
+        //↓
+        if (cross_vec_save.y == 0 && Input.GetAxis("Cross_Vertical") >= 1.0f)
+        {
+            cross_vec_save.y = 1.0f;
+            return "up";
+        }
+        else if (stick_vec_save.y == 0 && Input.GetAxis("Vertical") <= -0.8f)
+        {
+            stick_vec_save.y = -1.0f;
+            return "up";
+        }
+
+        //■■■■■■■■■
+        //↑
+        else if (cross_vec_save.y == 0 && Input.GetAxis("Cross_Vertical") <= -1.0f)
+        {
+            cross_vec_save.y = -1.0f;
+            return "down";
+
+        }
+        else if (stick_vec_save.y == 0 && Input.GetAxis("Vertical") >= 0.8f)
+        {
+            stick_vec_save.y = 1.0f;
+            return "down";
+        }
+
+        //■■■■■■■■■
+        //→
+        else if (cross_vec_save.x == 0 && Input.GetAxis("Cross_Horizontal") <= -1.0f)
+        {
+            cross_vec_save.x = -1.0f;
+            return "right";
+
+        }
+        else if (stick_vec_save.x == 0 && Input.GetAxis("Horizontal") >= 0.8f)
+        {
+            stick_vec_save.x = 1.0f;
+            Debug.Log("right");
+            return "right";
+        }
+
+        //■■■■■■■■■
+        //←
+        else if (cross_vec_save.x == 0 && Input.GetAxis("Cross_Horizontal") >= 1.0f)
+        {
+            cross_vec_save.x = 1.0f;
+            return "left";
+
+        }
+        else if (stick_vec_save.x == 0 && Input.GetAxis("Horizontal") <= -0.8f)
+        {
+            stick_vec_save.x = -1.0f;
+            Debug.Log("left");
+            return "left";
+        }
+
+
+
+        //■■■■■■■■■■■■■■■■■■
+        //リセット
+        //■■■■■■■■■
+        //↓
+        else if (cross_vec_save.y == 1.0f && Input.GetAxis("Cross_Vertical") <= 0.0f)
+        {
+            cross_vec_save.y = 0.0f;
+        }
+        else if (stick_vec_save.y == 1.0f && Input.GetAxis("Vertical") <= 0.0f)
+        {
+            Debug.Log("reset ↓");
+            stick_vec_save.y = 0.0f;
+        }
+
+        //■■■■■■■■■
+        //↑
+        else if (cross_vec_save.y == -1.0f && Input.GetAxis("Cross_Vertical") >= 0.0f)
+        {
+            cross_vec_save.y = 0.0f;
+        }
+        else if (stick_vec_save.y == -1.0f && Input.GetAxis("Vertical") >= 0.0f)
+        {
+            Debug.Log("reset ↑");
+            stick_vec_save.y = 0.0f;
+        }
+        //■■■■■■■■■
+        //→
+        else if (cross_vec_save.x == -1.0f && Input.GetAxis("Cross_Horizontal") >= 0.0f)
+        {
+            cross_vec_save.x = 0.0f;
+        }
+        else if (stick_vec_save.x == 1.0f && Input.GetAxis("Horizontal") <= 0.0f)
+        {
+            Debug.Log("reset →");
+            stick_vec_save.x = 0.0f;
+        }
+
+        //■■■■■■■■■
+        //←
+        else if (cross_vec_save.x == 1.0f && Input.GetAxis("Cross_Horizontal") <= 0.0f)
+        {
+            cross_vec_save.x = 0.0f;
+        }
+        else if (stick_vec_save.x == -1.0f && Input.GetAxis("Horizontal") >= 0.0f)
+        {
+            Debug.Log("reset ←");
+            stick_vec_save.x = 0.0f;
+        }
+
+
+        return null;
+    }
     // Use this for initialization
     void Start () {
         
@@ -595,12 +755,13 @@ public class assemble_weapon_manage : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        string input_button = crossorstick_buttondown_system();
         //武器スロットチェンジ
         //武器スロット時の操作
         if (mode_change == false && Exit_mode == false && Stage_mode == false)
         {
             //武器スロットと武器の切り替え
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Space)) && weapon_slot < assemble_status.my_weapon_number.Length)
+            if ((input_button  == "right"|| Input.GetButtonDown("button2")) && weapon_slot < assemble_status.my_weapon_number.Length)
             {
                 weapon_tab_open();
             } 
@@ -608,7 +769,7 @@ public class assemble_weapon_manage : MonoBehaviour {
             
             
             //武器スロット+1移動
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (input_button == "up")
             {
                 weapon_slot += 1;
 
@@ -616,7 +777,7 @@ public class assemble_weapon_manage : MonoBehaviour {
                 
             }
             //武器スロット-1移動
-            else if (Input.GetKeyDown(KeyCode.W))
+            else if (input_button == "down")
             {
                 weapon_slot -= 1;
 
@@ -625,12 +786,18 @@ public class assemble_weapon_manage : MonoBehaviour {
             }
             
             //スタートボタンにいる時
-            else if (Input.GetKeyDown(KeyCode.Space) && weapon_slot == assemble_status.my_weapon_number.Length)
+            else if (Input.GetButtonDown("button2") && weapon_slot == assemble_status.my_weapon_number.Length)
             {
                 start_UI_open();
                 
             }
-            
+
+            //やめる
+            if (Input.GetButtonDown("button1"))
+            {
+                Destroy(BGM);
+                SceneManager.LoadScene("title_world");
+            }
         }
 
 
@@ -639,12 +806,12 @@ public class assemble_weapon_manage : MonoBehaviour {
         {
 
             //武器スロットと武器の切り替え
-            if (Input.GetKeyDown(KeyCode.A))
+            if (input_button == "left" || Input.GetButtonDown("button1"))
             {
                 weapon_tab_close();
             }
             //武器ナンバー+1移動
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (input_button == "up")
             {
                 Debug.Log("+");
                 weapon_number += 1;
@@ -653,7 +820,7 @@ public class assemble_weapon_manage : MonoBehaviour {
                 
             }
             //武器ナンバー-1移動
-            else if (Input.GetKeyDown(KeyCode.W))
+            else if (input_button == "down")
             {
                 Debug.Log("-");
 
@@ -666,7 +833,7 @@ public class assemble_weapon_manage : MonoBehaviour {
 
             }
             //武器決定
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetButtonDown("button2"))
             {
                 if (weapon_slot < assemble_status.my_weapon_number.Length && mode_change)
                 {
@@ -680,12 +847,12 @@ public class assemble_weapon_manage : MonoBehaviour {
         //決定UI
         else if (Exit_Ui.Exit_mode == true)
         {
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)) && Exit_Ui.Pop_state)
+            if ((input_button == "left" || input_button == "right") && Exit_Ui.Pop_state)
             {
                 start_UI_set();
                 
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && Exit_Ui.Pop_state)
+            else if (Input.GetButtonDown("button2") && Exit_Ui.Pop_state)
             {
                 stage_UI_set(Exit_Ui.Exit_select);
                 
@@ -694,21 +861,17 @@ public class assemble_weapon_manage : MonoBehaviour {
 
         //ステージUI
         else if (Stage_Select_UI.Stage_mode == true) {
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A)) && Stage_Select_UI.Pop_state)
+            if ((input_button == "left" || input_button == "right") && Stage_Select_UI.Pop_state)
             {
                 stage_UI_move();
                 
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && Stage_Select_UI.Pop_state)
+            else if (Input.GetButtonDown("button2") && Stage_Select_UI.Pop_state)
             {
 
                 stage_load(Stage_Select_UI.Stage_select);
                 
             }
-        }
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-            Destroy(BGM);
-            SceneManager.LoadScene("title_world");
         }
     }
 }

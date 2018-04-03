@@ -4228,8 +4228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   my_weapon_number: 2
   attack: 1.5
+  bullet_speed: 20
   cool_time: 0
-  cool_const: 10
+  cool_const: 1
   bullet_counter: 100
   bullet_one_shot: 1
   reload_type: 1

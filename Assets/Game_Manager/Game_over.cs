@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Game_over : MonoBehaviour {
-    private Player_move P_M;
+    private chara_status Chara_Status;
     public GameObject Player;
-    private mouse_Vec M_V;
     //private animation_test A_T;
     public int enemy_number;
     public bool game_clear = false;
@@ -18,8 +17,7 @@ public class Game_over : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Player = GameObject.Find("Player");
-        P_M = Player.GetComponent<Player_move>();
-        M_V = Player.GetComponent<mouse_Vec>();
+        Chara_Status = Player.GetComponent<chara_status>();
         //A_T = Player.GetComponent<animation_test>();
 	}
 
@@ -36,10 +34,9 @@ public class Game_over : MonoBehaviour {
         }
 
         if (game_clear || game_over) {
-            P_M.move_lock = true;
-            M_V.mouse_lock = true;
+            Chara_Status.move_lock = true;
             //A_T.animation_lock = true;
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetButtonDown("button9")) {
                 string key = "ranking";
                 if (SceneManager.GetActiveScene().name == "game_world")
                 {

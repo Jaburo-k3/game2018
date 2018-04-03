@@ -10,24 +10,40 @@ public class Player_moves : MonoBehaviour {
     public Vector2 save_stick_vec = Vector2.zero;
     public GameObject Chara_obj;
     public GameObject Camera_obj;
-    float moveForceMultiplier = 50;
+    float moveForceMultiplier = 200;
     public Vector3 magnification = new Vector3(1.0f,1.0f,1.0f);
     bool move_now = false;
     private move_speed Move_Speed;
 
     private chara_status Chara_Status;
 
-
+    Coroutine hover_change_cor;
+    public void hover_change()
+    {
+        if (hover_change_cor != null)
+        {
+            StopCoroutine(hover_change_cor);
+        }
+        hover_change_cor = StartCoroutine(h_change_cor());
+    }
+    IEnumerator h_change_cor() {
+        yield return new WaitForSeconds(0.5f);
+        if (Chara_Status.hover == 1)
+        {
+            Chara_Status.hover = 0;
+        }
+    }
     Vector3 jump_move(Vector3 vec) {
         vec.y = Move_Speed.rising_speed * 4.0f;
         return vec;
     }
      Vector3 rising_move(Vector3 vec) {
-        vec.y = Move_Speed.rising_speed * 1.0f;
+        float inclination = Mathf.Sqrt(L_stick_vec.stick_vec.x * L_stick_vec.stick_vec.x + L_stick_vec.stick_vec.y * L_stick_vec.stick_vec.y);
+        vec.y = Move_Speed.rising_speed * (1.0f - inclination/5);
         return vec;
     }
     void speed_deceleration() {
-        Move_Speed.speed -= Move_Speed.deceleration;
+        Move_Speed.speed -= Move_Speed.deceleration * Move_Speed.speed/Move_Speed.normal_speed_max;
         if (Move_Speed.speed < Move_Speed.normal_speed_max)
         {
             Move_Speed.speed = Move_Speed.normal_speed_max;
@@ -45,16 +61,21 @@ public class Player_moves : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
 
         Vector3 moveVector = Vector3.zero;
         Vector3 Subtraction_vec = rb.velocity;
-
+        //Subtraction_vec.y = 0;
+        if (Chara_Status.move_lock) {
+            rb.AddForce(moveForceMultiplier * (moveVector - Subtraction_vec));
+            return;
+        }
         Vector3 vec = this.gameObject.transform.position - Camera_obj.transform.position;
         vec.y = 0f;
         vec = vec.normalized;
 
         //移動
-        if (Vector2.SqrMagnitude(L_stick_vec.stick_vec) > 0.1f && Chara_Status.move_lock == 0)
+        if (Vector2.SqrMagnitude(L_stick_vec.stick_vec) > 0.1f && Chara_Status.move_stun == 0)
         {
 
             if (Move_Speed.speed <= Move_Speed.speed_max)
@@ -62,11 +83,11 @@ public class Player_moves : MonoBehaviour {
                 Vector3 rising_vec = Vector3.zero;
 
                 //クイックブースト
-                if (Input.GetButtonDown("button7"))
+                if (Input.GetButtonDown("button7") )
                 {
                     Move_Speed.speed = Move_Speed.quick_boost_speed_max;
                     moveForceMultiplier = 200;
-
+                    Move_Speed.qboost_cool_time = Move_Speed.qboost_cool_time_const;
                     magnification.x = 0.05f;
                     magnification.z = 0.05f;
                     Debug.Log("Q_boost");
@@ -108,24 +129,49 @@ public class Player_moves : MonoBehaviour {
             move_now = false;
         }
 
-        //上昇
-        if (Input.GetButtonDown("button6") && Chara_Status.ground_condition == "terrain" && Move_Speed.speed == Move_Speed.normal_speed_max && move_now == false)
+
+
+        // new 上昇
+
+        if (Input.GetButtonDown("button6") && Chara_Status.hover == 1)
         {
-            moveVector = jump_move(moveVector);
+            if (Chara_Status.ground_condition == "terrain")
+            {
+                moveVector = jump_move(moveVector);
+            }
+            else if (Chara_Status.ground_condition == "air")
+            {
+                moveVector = rising_move(moveVector);
+            }
         }
-        else if (Input.GetButton("button6") && Chara_Status.ground_condition == "air")
-        {
+        else if (Input.GetButton("button6") && Chara_Status.hover == 2) {
             moveVector = rising_move(moveVector);
         }
-        else {
-            Subtraction_vec.y += Physics.gravity.y * Time.deltaTime;
+
+        //２回入力
+        if (Input.GetButtonUp("button6"))
+        {
+            if (Chara_Status.hover == 0)
+            {
+                Chara_Status.hover = 1;
+            }
+            hover_change();
         }
 
-        if (Chara_Status.move_lock > 0) {
-            Chara_Status.move_lock -= 1f;
+
+
+        if (Chara_Status.move_stun > 0) {
+            Chara_Status.move_stun -= 1f;
+        }
+
+        if (Move_Speed.qboost_cool_time > 0) {
+            Move_Speed.qboost_cool_time -= 1;
         }
         Subtraction_vec.x *= magnification.x;
         Subtraction_vec.z *= magnification.z;
+        if (Subtraction_vec.y < 0f) {
+            Subtraction_vec.y = 0;
+        }
         rb.AddForce(moveForceMultiplier * (moveVector - Subtraction_vec));
     }
 
