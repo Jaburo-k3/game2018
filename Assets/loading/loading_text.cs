@@ -26,7 +26,7 @@ public class loading_text : MonoBehaviour {
             SceneManager.LoadScene("game_world");
         }
         else if (Stage_number.stage_number == 1) {
-            SceneManager.LoadScene("game2_world");
+            SceneManager.LoadScene("game_world");
         }
         
         assemble_BGM.assemble_bgm.Stop();

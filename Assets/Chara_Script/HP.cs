@@ -39,7 +39,7 @@ public class HP : MonoBehaviour {
             if (this.gameObject.tag == "Player") {
                 g_m.game_over = true;
             }
-
+            hp = 0;
         }
 	}
 }

@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2038317f367a2e544a759d0463139159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   bullets: {fileID: 1688476200680128, guid: d16fd8fadf900fa4c9e1c913a7916176, type: 2}
   bullet_obj: {fileID: 0}
   mouse: {x: 0, y: 0}
@@ -164,14 +165,16 @@ MonoBehaviour:
   bullet_speed: 400
   cool_time: 0
   cool_const: 0.5
-  bullet_counter: 100
-  bullet_one_shot: 10
+  bullet_counter: 80
+  bullet_one_shot: 1
   reload_type: 0
   reload_time: 1
   reload_now: 0
   shot_lock: 0
   parent_obj: {fileID: 0}
+  camera_obj: {fileID: 0}
   parent_name: '25cn: base'
+  W_value_text: {fileID: 0}
 --- !u!114 &114647411540623912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,7 +195,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222551514983162}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 855feb8feac020b489e94baa26f58483, type: 3}
   m_Name: 

@@ -1342,13 +1342,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb49056236e99d648af2b292162a7e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 30
+  HP: 100
+  boost_energy: 0
+  boost_energy_max: 0
   speed_max: 0
   acceleration: 0
   boost_acceleration: 0
   normal_speed_max: 0
   boost_speed_max: 0
   quick_boost_speed_max: 0
+  qboost_cool_time_const: 0
+  boost_consume_energy: 0
+  quick_boost_consume_energy: 0
+  boost_recovery_speed: 0
   rising_speed: 0
   Terrain_State: 
   normalspeed: 0.1
@@ -1356,7 +1362,12 @@ MonoBehaviour:
   boost_max_speed: 0.35
   hover: 0
   ground_condition: 
+  move_stun: 0
   move_lock: 0
+  moving_state:
+  - 
+  - wait
+  quick_boost: 0
   camera_obj: {fileID: 0}
   lockon_range: 0
 --- !u!114 &114496749812257042

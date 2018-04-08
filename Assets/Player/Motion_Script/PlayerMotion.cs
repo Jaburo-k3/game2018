@@ -5,58 +5,67 @@ using UnityEngine;
 public class PlayerMotion : MonoBehaviour {
     private Animator animator;
     private Player_move player_move;
-	// Use this for initialization
-	void Start () {
+    private chara_status Chara_status;
+    public GameObject[] L_arm;
+    public GameObject[] R_arm;
+    // Use this for initialization
+    void Start () {
         animator = GetComponent<Animator>();
         player_move = this.gameObject.GetComponent<Player_move>();
+        Chara_status = this.GetComponent<chara_status>();
 	}
 	
 	// Update is called once per frame
-	void Update () { 
-        if (player_move.GetInput() == "forward" && player_move.move_lock == false)
+	void Update () {
+        if (Chara_status.moving_state[0] == "forward")
         {
             animator.SetInteger("Horizontal", 1);
-        }
-        else if (player_move.GetInput() == "back" && player_move.move_lock == false)
-        {
-            animator.SetInteger("Horizontal", 2);
-        }
-        else
-        {
-            animator.SetInteger("Horizontal", 0);
-        }
-
-
-        if (player_move.GetInput() == "right" && player_move.move_lock == false)
-        {
-            animator.SetInteger("Vertical", 1);
-        }
-        else if (player_move.GetInput() == "left" && player_move.move_lock == false)
-        {
-            animator.SetInteger("Vertical", 2);
-        }
-        else
-        {
             animator.SetInteger("Vertical", 0);
         }
-
-        //ジャンプモーション
-        if (player_move.move_lock == false)
+        else if (Chara_status.moving_state[0] == "back")
         {
-            animator.SetBool("Jump", Input.GetKey(KeyCode.Space));
-        }
-        else {
+            animator.SetInteger("Horizontal", 2);
+            animator.SetInteger("Vertical", 0);
             animator.SetBool("Jump", false);
         }
+        else if (Chara_status.moving_state[0] == "left")
+        {
+            animator.SetInteger("Vertical", 2);
+            animator.SetInteger("Horizontal", 0);
+            animator.SetBool("Jump", false);
+        }
+        else if (Chara_status.moving_state[0] == "right")
+        {
+            animator.SetInteger("Vertical", 1);
+            animator.SetInteger("Horizontal", 0);
+            animator.SetBool("Jump", false);
+        }
+        else if (Chara_status.moving_state[1] == "rising") {
+            animator.SetInteger("Horizontal", 0);
+            animator.SetInteger("Vertical", 0);
+            animator.SetBool("Jump",true);
+        }
+        else if (Chara_status.moving_state[0] == null)
+        {
+            animator.SetInteger("Horizontal", 0);
+            animator.SetInteger("Vertical", 0);
+            animator.SetBool("Jump", false);
+        }
+
         //ブースト
-        if (player_move.get_boost_style() != null && player_move.move_lock == false)
+        if (Chara_status.moving_state[1] == "boost")
         {
             animator.SetBool("Boost", true);
         }
-        else
-        {
+        else {
             animator.SetBool("Boost", false);
         }
-
-	}
+    }
+    void LateUpdate() {
+        L_arm[0].transform.localRotation = new Quaternion(R_arm[0].transform.localRotation.x, R_arm[0].transform.localRotation.y, R_arm[0].transform.localRotation.z * -1f, R_arm[0].transform.localRotation.w);
+        L_arm[1].transform.localRotation = R_arm[1].transform.localRotation;
+        L_arm[2].transform.localRotation = new Quaternion(R_arm[2].transform.localRotation.x, R_arm[2].transform.localRotation.y * -1, R_arm[2].transform.localRotation.z, R_arm[2].transform.localRotation.w);
+        L_arm[3].transform.localRotation = R_arm[3].transform.localRotation;
+        //arm.transform.localRotation = Quaternion.Euler(-10.0f, 0.0f, 0.0f);
+    }
 }

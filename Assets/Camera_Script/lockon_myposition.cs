@@ -54,7 +54,7 @@ public class lockon_myposition : MonoBehaviour {
     }
     void OnWillRenderObject()
     {
-        if (Camera.current.name == "Main Camera")
+        if (Camera.current.name == "Camera")
         {
             Lockon = Camera.current.gameObject.GetComponent<lockon>();
             if (!on_lockonrange(Camera.current.gameObject))

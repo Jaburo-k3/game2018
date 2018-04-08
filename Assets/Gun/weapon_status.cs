@@ -22,7 +22,10 @@ public class weapon_status : MonoBehaviour {
     public bool reload_now = false;
     public bool shot_lock = false;
     public GameObject parent_obj;
+    public GameObject camera_obj;
     public string parent_name;
+
+    public weapon_value_text W_value_text;
 
     public float get_bullet_counter_max() {
         return bullet_counter_max;

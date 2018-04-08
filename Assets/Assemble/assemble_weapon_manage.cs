@@ -11,6 +11,7 @@ public class assemble_weapon_manage : MonoBehaviour {
     private weapon_flame_update W_FL_Up;
     private assemble_status As_Status;
     private camera_manage Camera_Manage;
+    public GameObject camera_obj;
     private assemble_weapon_enable As_W_En;
     private viewweapon_enable View_enable;
     private weapon_silhouette Weapon_Sil;
@@ -584,7 +585,7 @@ public class assemble_weapon_manage : MonoBehaviour {
             //SceneManager.LoadScene("loading_world");
         }
         else {
-            Stage_number.stage_number = 1;
+            Stage_number.stage_number = 0;
         }
         SceneManager.LoadScene("loading_world");
     }
@@ -710,7 +711,8 @@ public class assemble_weapon_manage : MonoBehaviour {
         W_FL_Up = this.GetComponent<weapon_flame_update>();
         As_Status = GameObject.Find("Assemble_manage").GetComponent<assemble_status>();
         As_W_En = GameObject.Find("Assemble_manage").GetComponent<assemble_weapon_enable>();
-        Camera_Manage = GameObject.Find("Main Camera").GetComponent<camera_manage>();
+        Camera_Manage = camera_obj.GetComponent<camera_manage>();
+        //Camera_Manage = GameObject.Find("Main Camera").GetComponent<camera_manage>();
         View_enable = GameObject.Find("Assemble_manage").GetComponent<viewweapon_enable>();
         Weapon_Sil = this.GetComponent<weapon_silhouette>();
         Weapon_Text = this.GetComponent<weapon_text>();
@@ -854,8 +856,8 @@ public class assemble_weapon_manage : MonoBehaviour {
             }
             else if (Input.GetButtonDown("button2") && Exit_Ui.Pop_state)
             {
-                stage_UI_set(Exit_Ui.Exit_select);
-                
+                //stage_UI_set(Exit_Ui.Exit_select);
+                stage_load(Stage_Select_UI.Stage_select);
             }
         }
 

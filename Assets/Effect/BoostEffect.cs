@@ -4,36 +4,80 @@ using UnityEngine;
 
 public class BoostEffect : MonoBehaviour {
 
-    public GameObject boostLight;
-    public GameObject boostLight_Lleg;
-    public GameObject boostLight_Rleg;
-    public GameObject boostLight_Lbackpack;
-    public GameObject boostLight_Rbackpack;
-    private Player_move player_move;
+    public GameObject[] boostLight = new GameObject[2];
+    public GameObject[] boostLight_Lleg = new GameObject[2];
+    public GameObject[] boostLight_Rleg = new GameObject[2];
+    public GameObject[] boostLight_Lbackpack = new GameObject[2];
+    public GameObject[] boostLight_Rbackpack = new GameObject[2];
+    private chara_status Chara_status;
 
+    Coroutine Q_boost_effect_cor;
     private GameObject player;
-	// Use this for initialization
-	void Start () {
-        boostLight.SetActive(false);
-        boostLight_Lleg.SetActive(false);
-        boostLight_Rleg.SetActive(false);
-        boostLight_Lbackpack.SetActive(false);
-        boostLight_Rbackpack.SetActive(false);
+
+    IEnumerator Q_boost_effect()
+    {
+        boostLight[1].SetActive(true);
+        boostLight_Lleg[1].SetActive(true);
+        boostLight_Rleg[1].SetActive(true);
+        boostLight_Lbackpack[1].SetActive(true);
+        boostLight_Rbackpack[1].SetActive(true);
+        boostLight[0].SetActive(false);
+        boostLight_Lleg[0].SetActive(false);
+        boostLight_Rleg[0].SetActive(false);
+        boostLight_Lbackpack[0].SetActive(false);
+        boostLight_Rbackpack[0].SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        boostLight[1].SetActive(false);
+        boostLight_Lleg[1].SetActive(false);
+        boostLight_Rleg[1].SetActive(false);
+        boostLight_Lbackpack[1].SetActive(false);
+        boostLight_Rbackpack[1].SetActive(false);
+        Q_boost_effect_cor = null;
+
+
+    }
+
+    // Use this for initialization
+    void Start () {
+        boostLight[0].SetActive(false);
+        boostLight_Lleg[0].SetActive(false);
+        boostLight_Rleg[0].SetActive(false);
+        boostLight_Lbackpack[0].SetActive(false);
+        boostLight_Rbackpack[0].SetActive(false);
+        boostLight[1].SetActive(false);
+        boostLight_Lleg[1].SetActive(false);
+        boostLight_Rleg[1].SetActive(false);
+        boostLight_Lbackpack[1].SetActive(false);
+        boostLight_Rbackpack[1].SetActive(false);
         player = GameObject.Find("Player");
-        player_move = player.GetComponent<Player_move>();
+        Chara_status = player.GetComponent<chara_status>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         bool Boost = false;
-
-        if (player_move.get_boost_style() != null) {
+        if (Chara_status.moving_state[1] == "boost" || Chara_status.moving_state[1] == "rising")
+        {
             Boost = true;
         }
-        boostLight.SetActive(Boost);
-        boostLight_Lleg.SetActive(Boost);
-        boostLight_Rleg.SetActive(Boost);
-        boostLight_Lbackpack.SetActive(Boost);
-        boostLight_Rbackpack.SetActive(Boost);
+
+        if (Chara_status.quick_boost) {
+            if (Q_boost_effect_cor == null)
+            {
+                Q_boost_effect_cor = StartCoroutine(Q_boost_effect());
+            }
+            else {
+                StopCoroutine(Q_boost_effect_cor);
+                Q_boost_effect_cor = StartCoroutine(Q_boost_effect());
+            }
+        }
+        if (Q_boost_effect_cor == null)
+        {
+            boostLight[0].SetActive(Boost);
+            boostLight_Lleg[0].SetActive(Boost);
+            boostLight_Rleg[0].SetActive(Boost);
+            boostLight_Lbackpack[0].SetActive(Boost);
+            boostLight_Rbackpack[0].SetActive(Boost);
+        }
     }
 }

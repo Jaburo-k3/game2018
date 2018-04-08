@@ -4210,7 +4210,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561046286595142}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 855feb8feac020b489e94baa26f58483, type: 3}
   m_Name: 
@@ -4231,14 +4231,16 @@ MonoBehaviour:
   bullet_speed: 20
   cool_time: 0
   cool_const: 1
-  bullet_counter: 100
+  bullet_counter: 200
   bullet_one_shot: 1
   reload_type: 1
   reload_time: 4
   reload_now: 0
   shot_lock: 0
   parent_obj: {fileID: 0}
+  camera_obj: {fileID: 0}
   parent_name: 05azalea_back:topArm
+  W_value_text: {fileID: 0}
 --- !u!114 &114829240220903706
 MonoBehaviour:
   m_ObjectHideFlags: 1

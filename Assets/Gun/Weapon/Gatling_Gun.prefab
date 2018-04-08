@@ -2041,14 +2041,15 @@ MonoBehaviour:
   bullet_speed: 400
   cool_time: 0
   cool_const: 0.1
-  bullet_counter: 200
-  bullet_one_shot: 1.25
+  bullet_counter: 800
+  bullet_one_shot: 1
   reload_type: 1
   reload_time: 3
   reload_now: 0
   shot_lock: 0
   parent_obj: {fileID: 0}
   parent_name: '25cn: base'
+  W_value_text: {fileID: 0}
 --- !u!114 &114798072674952174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2077,7 +2078,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1286100398142602}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 855feb8feac020b489e94baa26f58483, type: 3}
   m_Name: 

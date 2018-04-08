@@ -14,7 +14,6 @@ public class bullet : MonoBehaviour {
     private List<GameObject> Child_obj;
     public GameObject Hit_Marker_obj;
 
-
     private hit_marker Hit_Marker;
 
     private create_hit_marker C_Hit_Marker;
