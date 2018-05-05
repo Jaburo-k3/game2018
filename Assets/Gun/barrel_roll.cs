@@ -10,10 +10,8 @@ public class barrel_roll : MonoBehaviour {
     bool roll_start = false;
 	// Use this for initialization
 	void Start () {
-        for (int i = 0; i < barrel.Length; i++)
-        {
-            default_rotate.Add(barrel[i].transform.localRotation);
-        }
+        Debug.Log(barrel[0].name);
+        default_rotate.Add(barrel[0].transform.localRotation);
 	}
 	
 	// Update is called once per frame

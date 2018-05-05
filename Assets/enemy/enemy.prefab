@@ -1342,7 +1342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb49056236e99d648af2b292162a7e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 40
   boost_energy: 0
   boost_energy_max: 0
   speed_max: 0
@@ -1368,6 +1368,7 @@ MonoBehaviour:
   - 
   - wait
   quick_boost: 0
+  bullet_hit: 0
   camera_obj: {fileID: 0}
   lockon_range: 0
 --- !u!114 &114496749812257042

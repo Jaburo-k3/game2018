@@ -59,6 +59,10 @@ public class assemble_camera : MonoBehaviour {
         angle.y = save_angle.y;
         camera_lock = true;
     }
+    void Awake() {
+        angle.y = 0.4f;
+        center_point = GameObject.Find("Player/center_point");
+    }
     // Use this for initialization
     void Start()
     {
@@ -66,9 +70,9 @@ public class assemble_camera : MonoBehaviour {
 
         nowPos = transform.position;
 
-        center_point = GameObject.Find("Player/center_point");
+        //center_point = GameObject.Find("Player/center_point");
 
-        angle.y = 0.4f;
+        //angle.y = 0.4f;
         //StartCoroutine("test");
         
     }
@@ -76,6 +80,9 @@ public class assemble_camera : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Vector2.SqrMagnitude(new Vector2(Input.GetAxis("Horizontal2") * -1, Input.GetAxis("Vertical2"))) > 0.1f) {
+            angle += new Vector2(Input.GetAxis("Horizontal2") * -1, Input.GetAxis("Vertical2")) * Time.deltaTime * spinSpeed;
+        }
         //angle = mouse_vec.mouse;
         if (Input.GetMouseButton(1))
         {
@@ -84,6 +91,13 @@ public class assemble_camera : MonoBehaviour {
         if (camera_lock == false) {
             angle -= add_angle * Time.deltaTime * 2f;
             //Debug.Log(x);
+        }
+        if (angle.x < -2.0f)
+        {
+            angle.x = 0;
+        }
+        else if (angle.x > 2.0f) {
+            angle.x = 0;
         }
         //angle.y += x * Time.deltaTime;
         angle.y = Mathf.Clamp(angle.y, Clamp_S, Clamp_E);

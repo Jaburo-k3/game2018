@@ -26,8 +26,8 @@ public class status_text : MonoBehaviour {
         status_texts[0,1].text = Assemble_Status.attack.ToString("F1");
         text_color_update(0, Assemble_Status.save_attack, Assemble_Status.attack);
 
-        status_texts[1,0].text = Assemble_Status.save_bullet_number.ToString("F1");
-        status_texts[1,1].text = Assemble_Status.bullet_number.ToString("F1");
+        status_texts[1,0].text = Assemble_Status.save_bullet_number.ToString();
+        status_texts[1,1].text = Assemble_Status.bullet_number.ToString();
         text_color_update(1, Assemble_Status.save_bullet_counter, Assemble_Status.bullet_counter);
 
 
@@ -36,8 +36,7 @@ public class status_text : MonoBehaviour {
         status_texts[2, 1].text = Assemble_Status.cool_time.ToString("F1");
         text_color_update(2, Assemble_Status.cool_time, Assemble_Status.save_cool_time);
 
-
-
+        /*
         if (Assemble_Status.save_reload_type == 0)
         {
             status_texts[3, 0].text = "単発";
@@ -55,7 +54,8 @@ public class status_text : MonoBehaviour {
 
         status_texts[4, 0].text = Assemble_Status.save_reload_time.ToString("F1");
         status_texts[4, 1].text = Assemble_Status.reload_time.ToString("F1");
-        text_color_update(4, Assemble_Status.reload_time, Assemble_Status.save_reload_time);
+        */
+        //text_color_update(4, Assemble_Status.reload_time, Assemble_Status.save_reload_time);
 
 
 

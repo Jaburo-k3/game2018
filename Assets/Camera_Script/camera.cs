@@ -9,12 +9,12 @@ public class camera : MonoBehaviour {
     public Vector3 center_look_pos;
     public float spinSpeed = 1.0f;
     private float radius = 0.9f;
-    float x;
+    float lerp_value = 15f;
     public Vector3 nowPos;
     public Vector3 save_pos;
     public Vector3 save_vec;
     Vector3 pos = Vector3.zero;
-    public Vector2 mouse = Vector2.zero;
+    public Vector2 stick_vec = Vector2.zero;
 
     Vector3 look_point;
     public bool mode_snipe = false;
@@ -197,9 +197,10 @@ public class camera : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        pos.x = Mathf.Sin(mouse.y * Mathf.PI) * radius * Mathf.Cos(mouse.x * Mathf.PI);
-        pos.y = Mathf.Cos(mouse.y * Mathf.PI);
-        pos.z = Mathf.Sin(mouse.y * Mathf.PI) * radius * Mathf.Sin(mouse.x * Mathf.PI);
+        stick_vec = R_stick_vec.stick_vec;
+        pos.x = Mathf.Sin(stick_vec.y * Mathf.PI) * radius * Mathf.Cos(stick_vec.x * Mathf.PI);
+        pos.y = Mathf.Cos(stick_vec.y * Mathf.PI);
+        pos.z = Mathf.Sin(stick_vec.y * Mathf.PI) * radius * Mathf.Sin(stick_vec.x * Mathf.PI);
 
         //pos *= nowPos.z;
         pos *= -6f;
@@ -215,7 +216,7 @@ public class camera : MonoBehaviour {
         //通常モード
         if (camera_lock == false && mode_snipe == false)
         {
-            center_pos = Vector3.Lerp(center_pos, target_object.position, 10f * Time.deltaTime);
+            center_pos = Vector3.Lerp(center_pos, target_object.position, lerp_value * Time.deltaTime);
 
             //transform.position = pos + target_object.position;
             transform.position = pos + center_pos;
@@ -223,7 +224,7 @@ public class camera : MonoBehaviour {
 
             //Vector3 look_pos = new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z);
             center_look_pos = Vector3.Lerp(center_look_pos, new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z), 
-                10f * Time.deltaTime);
+                lerp_value * Time.deltaTime);
 
             transform.LookAt(center_look_pos);
         }
@@ -231,89 +232,6 @@ public class camera : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        /*
-        //スナイプモード切り替え
-        if (Input.GetKeyDown(KeyCode.LeftShift) && camera_move_now == false && hp.get_hp() > 0) {
 
-            camera_lock = true;
-            R_stick_vec.stick_lock = true;
-            Lockon.lockon_lock = true;
-            player_move.move_lock = true;
-            player_move.gravity_lock = true;
-            camera_move_now = true;
-            StartCoroutine("camera_move");
-            //TPSカメラ状態からFPSカメラへ移動
-            //Debug.Log("Shift");
-        }
-        */
-        mouse = R_stick_vec.stick_vec;
-
-        /*
-        pos.x = Mathf.Sin(mouse.y * Mathf.PI)  * radius * Mathf.Cos(mouse.x * Mathf.PI);
-        pos.y = Mathf.Cos(mouse.y * Mathf.PI);
-        pos.z = Mathf.Sin(mouse.y * Mathf.PI) * radius * Mathf.Sin(mouse.x * Mathf.PI);
-
-        //pos *= nowPos.z;
-        pos *= -6f;
-
-        //pos.y += nowPos.y;
-        pos.y += 5.939f;
-        
-
-        save_pos = pos + target_object.position;
-
-        
-        //▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        //通常モード
-        if (camera_lock == false  && mode_snipe == false)
-        {
-            center_pos = Vector3.Lerp(center_pos, target_object.position, 5.0f * Time.deltaTime);
-
-            //transform.position = pos + target_object.position;
-            transform.position = pos + center_pos;
-            save_pos = pos + target_object.position;
-
-            //Vector3 look_pos = new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z);
-            center_look_pos = Vector3.Lerp(center_look_pos, new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z), 5.0f * Time.deltaTime);
-
-            transform.LookAt(center_look_pos);
-        }
-        */
-        //▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-        //Debug.Log("save" + save_pos);
-        //Debug.Log("trans" + transform.position);
     }
-    /*
-    void LateUpdate () {
-        pos.x = Mathf.Sin(mouse.y * Mathf.PI) * radius * Mathf.Cos(mouse.x * Mathf.PI);
-        pos.y = Mathf.Cos(mouse.y * Mathf.PI);
-        pos.z = Mathf.Sin(mouse.y * Mathf.PI) * radius * Mathf.Sin(mouse.x * Mathf.PI);
-
-        //pos *= nowPos.z;
-        pos *= -6f;
-
-        //pos.y += nowPos.y;
-        pos.y += 5.939f;
-
-
-        save_pos = pos + target_object.position;
-
-
-        //▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
-        //通常モード
-        if (camera_lock == false && mode_snipe == false)
-        {
-            center_pos = Vector3.Lerp(center_pos, target_object.position, 5f * Time.deltaTime);
-
-            //transform.position = pos + target_object.position;
-            transform.position = pos + center_pos;
-            save_pos = pos + target_object.position;
-
-            //Vector3 look_pos = new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z);
-            center_look_pos = Vector3.Lerp(center_look_pos, new Vector3(target_object.position.x, center_point.transform.position.y + 2f, target_object.position.z), 5f * Time.deltaTime);
-
-            transform.LookAt(center_look_pos);
-        }
-    }
-    */
 }

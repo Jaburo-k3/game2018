@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222912857549045648}
   - component: {fileID: 114625933858852618}
   m_Layer: 5
-  m_Name: area_over_line_verticle
+  m_Name: area_over_line 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

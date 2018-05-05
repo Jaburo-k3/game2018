@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32adce38997e766479840e25059ff78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 18
+  attack: 70
 --- !u!114 &114153305929917358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -490,7 +490,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 0, b: 0, a: 1}
     startSize:
       minMaxState: 0
       scalar: 0.4

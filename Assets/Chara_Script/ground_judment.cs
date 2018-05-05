@@ -7,7 +7,7 @@ public class ground_judment : MonoBehaviour {
     private chara_status Chara_Status;
     private HP hp;
     void OnCollisionEnter(Collision other) {
-        Debug.Log(other.collider.name);
+        //Debug.Log(other.collider.name);
         if (other.gameObject.tag == "terrain") {
             if (Chara_Status.ground_condition == "air") {
                 Chara_Status.move_stun = 10;

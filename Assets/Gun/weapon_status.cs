@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class weapon_status : MonoBehaviour {
     public int my_weapon_number;
-
+    public int my_arm_number;
     public float attack;
 
     public float bullet_speed;

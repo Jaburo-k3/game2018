@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class enemy_weapon_status : MonoBehaviour {
 
+    public int my_weapon_number;
+    public int my_arm_number;
+
     public float attack;
 
     public int cool_time;
@@ -12,7 +15,7 @@ public class enemy_weapon_status : MonoBehaviour {
     public GameObject parent_obj;
 
     public GameObject target;
-
+    public string parent_name;
     public bool target_lock;
     // Use this for initialization
     void Start()

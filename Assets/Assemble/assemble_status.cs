@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class assemble_status : MonoBehaviour {
-    static public int[] my_weapon_number = {0,1,4};
+    static public int[] my_weapon_number = {0,0,4,4};
 
     public float attack;
     public float save_attack;

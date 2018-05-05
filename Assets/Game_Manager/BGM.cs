@@ -12,7 +12,7 @@ public class BGM : MonoBehaviour {
         bgm = this.gameObject.AddComponent<AudioSource>();
         bgm.clip = BGM_sound[number];
         bgm.loop = true;
-        bgm.volume = 0.6f;
+        bgm.volume = 0.45f;
         bgm.Play();
 	}
 	

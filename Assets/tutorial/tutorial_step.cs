@@ -54,7 +54,8 @@ public class tutorial_step : MonoBehaviour {
         else if (number == 9)
         {
             shot_counter = 0;
-            save_weapon_number = W_switching.weapon_number;
+            //修正点
+            //save_weapon_number = W_switching.weapon_number[];
         }
         else if (number == 10) {
             //Destroy(target);
@@ -155,6 +156,8 @@ public class tutorial_step : MonoBehaviour {
     //武器チェンジチュートリアル
     public void step_weapon_change()
     {
+        //修正点
+        /*
         if (W_switching.weapon_number != save_weapon_number && Input.GetMouseButtonDown(0)) {
             shot_counter += 1;
         }
@@ -162,6 +165,7 @@ public class tutorial_step : MonoBehaviour {
             step_clear = true;
             step_stop_now = false;
         }
+        */
     }
 
     //スナイプチュートリアル

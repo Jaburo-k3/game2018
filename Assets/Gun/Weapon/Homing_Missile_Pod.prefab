@@ -4256,7 +4256,7 @@ MonoBehaviour:
   missile_obj: {fileID: 0}
   target: {fileID: 0}
   multiple_firing: 4
-  delay: 0.2
+  delay: 0.1
   muzzle:
   - {fileID: 1447820170142898}
   - {fileID: 1509550174201518}

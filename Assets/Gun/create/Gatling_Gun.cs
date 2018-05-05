@@ -6,11 +6,9 @@ public class Gatling_Gun : MonoBehaviour {
     private GameObject parent;
     public GameObject bullets;
     public GameObject bullet_obj;
-    public Vector2 mouse = Vector2.zero;
+    public string button;
 
     private Attack attack;
-
-    public GameObject test;
 
     public int burst;
     public float burst_time;
@@ -40,7 +38,7 @@ public class Gatling_Gun : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.shot_lock == false 
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] && W_status.shot_lock == false 
             && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
@@ -94,7 +92,7 @@ public class Gatling_Gun : MonoBehaviour {
         }
 
         while (true) {
-            if (W_status.get_my_weapon_number() != W_switching.weapon_number || W_status.bullet_counter < W_status.bullet_one_shot)
+            if (W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] || W_status.bullet_counter < W_status.bullet_one_shot)
             {
                 Debug.Log("break");
                 break;
@@ -123,7 +121,14 @@ public class Gatling_Gun : MonoBehaviour {
         AudioSource.loop = true;
 
         burst_time = W_status.cool_const;
-        //mouse.y = 0.3f;
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -138,22 +143,23 @@ public class Gatling_Gun : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button5"))
+        if (Input.GetButtonDown(button) && C_Gatling == null)
         {
             C_Gatling = StartCoroutine(Gatling());
         }
-        else if (Input.GetButton("button5") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0)
+        else if (Input.GetButtonUp(button))
         {
-            C_Gatling = StartCoroutine(Gatling());
-            W_switching.weapon_change = false;
-        }
-        else if (Input.GetButtonUp("button5")) {
             StopCoroutine(C_Gatling);
             W_status.cool_time = W_status.cool_const;
             C_Gatling = null;
             AudioSource.Stop();
         }
-        else if (Input.GetButton("button5") && W_status.get_my_weapon_number() != W_switching.weapon_number && C_Gatling != null)
+        else if (Input.GetButton(button) && C_Gatling == null && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] && W_status.cool_time == 0)
+        {
+            C_Gatling = StartCoroutine(Gatling());
+            W_switching.weapon_change = false;
+        }
+        else if (Input.GetButton(button) && W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] && C_Gatling != null)
         {
             StopCoroutine(C_Gatling);
             W_status.cool_time = W_status.cool_const;

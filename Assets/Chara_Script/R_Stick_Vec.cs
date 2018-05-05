@@ -16,7 +16,7 @@ public class R_Stick_Vec : MonoBehaviour {
     private float Clamp_E;//Lスティックy軸の最高値
 
 
-    public void mouse_limit() {
+    public void vec_limit() {
         stick_vec.y = Mathf.Clamp(stick_vec.y, Clamp_S, Clamp_E);
     }
 
@@ -35,7 +35,7 @@ public class R_Stick_Vec : MonoBehaviour {
         if (stick_lock == false)
         {
             stick_vec += new Vector2(Input.GetAxis("Horizontal2") * -1, Input.GetAxis("Vertical2") * -1) * Time.deltaTime * spinSpeed;
-            mouse_limit();
+            vec_limit();
         }
     }
 }

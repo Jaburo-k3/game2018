@@ -9,6 +9,7 @@ public class Gatling_Cannon : MonoBehaviour {
     public Vector2 mouse = Vector2.zero;
     public GameObject[] barrel;
     public Vector3 barrel_roll;
+    public string button;
 
     private Attack attack;
 
@@ -42,7 +43,8 @@ public class Gatling_Cannon : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] && 
+            W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
         }
@@ -68,10 +70,7 @@ public class Gatling_Cannon : MonoBehaviour {
     {
         if (!shot_permission())
         {
-            for (int i = 0; i < barrel.Length; i++)
-            {
-               barrel[i].transform.Rotate(-1 * barrel_roll);
-            }
+            barrel[0].transform.Rotate(-1 * barrel_roll);
             return;
         }
         bullet_obj = Instantiate(bullets, this.transform.position, Quaternion.identity);
@@ -94,6 +93,7 @@ public class Gatling_Cannon : MonoBehaviour {
     }
     IEnumerator Gatling()
     {
+        barrel[0].transform.Rotate(barrel_roll);
         AudioSource.Play();
         for (int j = 0; j < muzzle.Length; j++)
         {
@@ -104,11 +104,7 @@ public class Gatling_Cannon : MonoBehaviour {
         {
             if (W_status.bullet_counter < W_status.bullet_one_shot)
             {
-                for (int i = 0; i < barrel.Length; i++)
-                {
-                    barrel[i].transform.Rotate(-1 * barrel_roll);
-                }
-                Debug.Log("break");
+                barrel[0].transform.Rotate(-1 * barrel_roll);
                 break;
             }
             yield return new WaitForSeconds(burst_time);
@@ -136,7 +132,14 @@ public class Gatling_Cannon : MonoBehaviour {
         AudioSource.loop = true;
 
         burst_time = W_status.cool_const;
-        //mouse.y = 0.3f;
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -151,26 +154,39 @@ public class Gatling_Cannon : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button4"))
+        if (Input.GetButtonDown(button))
         {
-            Barrel_roll.roll = true;
-            C_Gatling = StartCoroutine(Gatling());
-            for (int i = 0; i < barrel.Length; i++)
+            if (shot_permission())
             {
-                barrel[i].transform.Rotate(barrel_roll);
+                Barrel_roll.roll = true;
             }
+            C_Gatling = StartCoroutine(Gatling());
         }
-        else if (Input.GetButtonUp("button4"))
+        else if (Input.GetButtonUp(button))
         {
             StopCoroutine(C_Gatling);
+            barrel[0].transform.Rotate(-1 * barrel_roll);
             W_status.cool_time = W_status.cool_const;
             C_Gatling = null;
             Barrel_roll.roll = false;
-            for (int i = 0; i < barrel.Length; i++)
-            {
-                barrel[i].transform.Rotate(-1 * barrel_roll);
-            }
             AudioSource.Stop();
+        }
+        else if (Input.GetButton(button) && C_Gatling == null && W_switching.weapon_change && shot_permission() && W_status.cool_time == 0) {
+            C_Gatling = StartCoroutine(Gatling());
+            Barrel_roll.roll = true;
+            W_switching.weapon_change = false;
+        }
+        else if (Input.GetButton(button) && W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] && C_Gatling != null)
+        {
+            StopCoroutine(C_Gatling);
+            W_status.cool_time = W_status.cool_const;
+            Barrel_roll.roll = false;
+            C_Gatling = null;
+            AudioSource.Stop();
+            if (W_status.cool_time == 0)
+            {
+                W_status.cool_time = W_status.cool_const;
+            }
         }
         
     }

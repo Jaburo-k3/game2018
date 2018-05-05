@@ -2048,6 +2048,7 @@ MonoBehaviour:
   reload_now: 0
   shot_lock: 0
   parent_obj: {fileID: 0}
+  camera_obj: {fileID: 0}
   parent_name: '25cn: base'
   W_value_text: {fileID: 0}
 --- !u!114 &114798072674952174
@@ -2064,7 +2065,6 @@ MonoBehaviour:
   bullets: {fileID: 1236000914359054, guid: 7f6d85f1a6a554845913f9e4212f8e55, type: 2}
   bullet_obj: {fileID: 0}
   mouse: {x: 0, y: 0}
-  test: {fileID: 1275004515705550, guid: 31cd085bd146bce46a9ffb6d9b40400a, type: 2}
   burst: 10
   burst_time: 0.1
   muzzle:

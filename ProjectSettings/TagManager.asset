@@ -9,6 +9,7 @@ TagManager:
   - bullet
   - environment
   - terrain
+  - foot
   layers:
   - Default
   - TransparentFX

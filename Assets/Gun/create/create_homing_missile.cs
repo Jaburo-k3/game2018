@@ -7,6 +7,7 @@ public class create_homing_missile : MonoBehaviour {
     public GameObject missile;
     public GameObject missile_obj;
     public GameObject target;
+    public string button;
     public int multiple_firing;
     public float delay;
 
@@ -30,6 +31,8 @@ public class create_homing_missile : MonoBehaviour {
     public AudioClip homingmissile_sound;
 
     Coroutine CC_Missile;
+    bool one_shot = false;
+    bool button_up = false;
 
     public int get_cool_const()
     {
@@ -49,8 +52,8 @@ public class create_homing_missile : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.shot_lock == false
-            && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] &&
+            W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot )
         {
             return true;
         }
@@ -63,15 +66,12 @@ public class create_homing_missile : MonoBehaviour {
     //
     void C_Missile(int number)
     {
-        Debug.Log("create");
         if (!shot_permission())
         {
             if (CC_Missile != null)
             {
-                Debug.Log("stop");
                 StopCoroutine(CC_Missile);
             }
-            Debug.Log("stop");
             return;
         }
         AudioSource AudioSource;
@@ -104,26 +104,24 @@ public class create_homing_missile : MonoBehaviour {
         W_value_text.weapon_shot = true;
 
         set_C_Hit_Marker(missile_obj);
-        Debug.Log(W_status.bullet_counter);
 
     }
     IEnumerator Missile()
     {
-        Debug.Log("start");
         for (int i = 0; i < muzzle.Length / multiple_firing; i++)
         {
-            Debug.Log("start2");
+            Debug.Log("first");
             target = Lockon.target_obj;
             yield return new WaitForSeconds(delay);
-            Debug.Log("start5");
             for (int j = 0; j < multiple_firing; j++)
             {
-                C_Missile(i * 4 + j);
-                Debug.Log("start4");
+                C_Missile(i * 2 + j);
             }
         }
+        one_shot = true;
+
+
         while (true) {
-            Debug.Log("start3");
             yield return new WaitForSeconds(W_status.cool_const);
             for (int i = 0; i < muzzle.Length / multiple_firing; i++)
             {
@@ -131,7 +129,7 @@ public class create_homing_missile : MonoBehaviour {
                 yield return new WaitForSeconds(delay);
                 for (int j = 0; j < multiple_firing; j++)
                 {
-                    C_Missile(i * 4 + j);
+                    C_Missile(i * 2 + j);
                 }
             }
         }
@@ -147,7 +145,13 @@ public class create_homing_missile : MonoBehaviour {
         W_switching = parent.GetComponent<weapon_switching>();
         attack = missile.GetComponent<Attack>();
 
-        
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -162,23 +166,28 @@ public class create_homing_missile : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button4"))
+        if (Input.GetButtonDown(button) && CC_Missile == null && one_shot == false && shot_permission())
         {
+            Debug.Log("Down");
             //Input.GetButtonDown("button4") && W_status.get_my_weapon_number() == W_switching.weapon_number
             CC_Missile = StartCoroutine(Missile());
         }
-        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
+        else if (Input.GetButton(button) && W_switching.weapon_change && CC_Missile == null && W_status.cool_time == 0 && shot_permission())
         {
             //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
             CC_Missile = StartCoroutine(Missile());
             W_switching.weapon_change = false;
         }
-        else if (Input.GetButtonUp("button4") && CC_Missile != null) {
-            //Input.GetButtonUp("button4") && CC_Missile != null && W_status.get_my_weapon_number() == W_switching.weapon_number
+        else if (Input.GetButtonUp(button) && CC_Missile != null ) {
+            button_up = true;
+        }
+        if (button_up && one_shot && CC_Missile != null) {
             StopCoroutine(CC_Missile);
             CC_Missile = null;
             target = null;
             W_status.cool_time = W_status.cool_const;
+            button_up = false;
+            one_shot = false;
         }
         /*
         else if (Input.GetButton("button4") && CC_Missile != null)

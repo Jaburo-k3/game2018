@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class loading_weapon : MonoBehaviour {
-    public GameObject[] weapon;
+    public GameObject[] R_weapon;
+    public GameObject[] L_weapon;
     public List<GameObject> E_right_weapons;
     public bool E_right_weapon = false;
 
     void weapon_enable() {
-        for (int i = 0; i < weapon.Length; i++) {
-            weapon[i].SetActive(false);
+        for (int i = 0; i < R_weapon.Length; i++) {
+            R_weapon[i].SetActive(false);
+            L_weapon[i].SetActive(false);
         }
         for (int i = 0; i < assemble_status.my_weapon_number.Length; i++) {
-            if (E_right_weapons.Contains(weapon[assemble_status.my_weapon_number[i]]))
+            if (i == 0 || i == 2)
             {
-                if (E_right_weapon == false)
-                {
-                    weapon[assemble_status.my_weapon_number[i]].SetActive(true);
-                    E_right_weapon = true;
-                }
+                R_weapon[assemble_status.my_weapon_number[i]].SetActive(true);
             }
-            else {
-                weapon[assemble_status.my_weapon_number[i]].SetActive(true);
+            else if (i == 1 || i == 3) {
+                L_weapon[assemble_status.my_weapon_number[i]].SetActive(true);
             }
         }
     }

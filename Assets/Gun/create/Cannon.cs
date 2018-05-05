@@ -6,6 +6,7 @@ public class Cannon : MonoBehaviour {
     private GameObject parent;
     public GameObject bullet;
     public GameObject bullet_obj;
+    public string button;
 
     float rotation = 25;
     //Vector3 rotation;
@@ -33,6 +34,7 @@ public class Cannon : MonoBehaviour {
     public AudioClip Bullet_sound;
     public Rigidbody rb;
     public float knock_back;
+    Coroutine C_bullet_cor;
     public int get_cool_const()
     {
         return cool_const;
@@ -51,7 +53,8 @@ public class Cannon : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number]
+            && W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
         }
@@ -99,7 +102,8 @@ public class Cannon : MonoBehaviour {
 
         }
         shot_now = false;
-        transform.Rotate(-25, 0, 0);
+        transform.Rotate(-25f, 0, 0);
+        C_bullet_cor = null;
 
     }
     // Use this for initialization
@@ -115,6 +119,14 @@ public class Cannon : MonoBehaviour {
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Bullet_sound;
         AudioSource.volume = 0.2f;
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -129,17 +141,11 @@ public class Cannon : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button4") && shot_permission() && shot_now == false)
+        if (Input.GetButtonDown(button) && C_bullet_cor == null && shot_permission() && shot_now == false)
         {
             shot_now = true;
             transform.Rotate(25, 0, 0);
-            StartCoroutine(C_bullet());
-        }
-        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
-        {
-            //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
-            StartCoroutine(C_bullet());
-            W_switching.weapon_change = false;
+            C_bullet_cor = StartCoroutine(C_bullet());
         }
     }
 }

@@ -6,7 +6,7 @@ public class machinegun : MonoBehaviour {
     private GameObject parent;
     public GameObject bullets;
     public GameObject bullet_obj;
-    public Vector2 mouse = Vector2.zero;
+    public string button;
 
     public int burst;
     public float burst_time;
@@ -41,7 +41,7 @@ public class machinegun : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.shot_lock == false 
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] && W_status.shot_lock == false 
             && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
@@ -65,9 +65,10 @@ public class machinegun : MonoBehaviour {
     void C_bullet() {
         if (!shot_permission())
         {
-            if (W_status.get_my_weapon_number() != W_switching.weapon_number && CC_bullet != null)
+            if (W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] && CC_bullet != null)
             {
                 StopCoroutine(CC_bullet);
+                CC_bullet = null;
             }
             return;
         }
@@ -104,7 +105,7 @@ public class machinegun : MonoBehaviour {
         C_bullet();
         Debug.Log("Do");
         while (true) {
-            if (W_status.get_my_weapon_number() != W_switching.weapon_number || W_status.bullet_counter < W_status.bullet_one_shot)
+            if (W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] || W_status.bullet_counter < W_status.bullet_one_shot)
             {
                 Debug.Log("break");
                 StopCoroutine(CC_bullet);
@@ -125,6 +126,14 @@ public class machinegun : MonoBehaviour {
         W_switching = parent.GetComponent<weapon_switching>();
 
         burst_time = W_status.cool_const;
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -139,21 +148,21 @@ public class machinegun : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button5") && W_status.get_my_weapon_number() == W_switching.weapon_number)
+        if (Input.GetButtonDown(button) && W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number])
         {
             CC_bullet = StartCoroutine(C_bullet_system());
         }
-        else if (Input.GetButton("button5") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number)
+        else if (Input.GetButton(button) && W_switching.weapon_change && CC_bullet == null && W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number])
         {
             CC_bullet = StartCoroutine(C_bullet_system());
             W_switching.weapon_change = false;
         }
-        else if (Input.GetButtonUp("button5") && CC_bullet != null && W_status.get_my_weapon_number() == W_switching.weapon_number) {
+        else if (Input.GetButtonUp(button) && CC_bullet != null && W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number]) {
             StopCoroutine(CC_bullet);
             CC_bullet = null;
             W_status.cool_time = W_status.cool_const;
         }
-        else if (Input.GetButton("button5") && W_status.get_my_weapon_number() != W_switching.weapon_number && CC_bullet != null)
+        else if (Input.GetButton(button) && W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] && CC_bullet != null)
         {
             StopCoroutine(CC_bullet);
             CC_bullet = null;

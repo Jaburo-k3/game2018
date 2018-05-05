@@ -20,7 +20,6 @@ public class weapon_mesh : MonoBehaviour {
             for (int i = 0; i < mesh_obj.Length; i++) {
                 my_mesh[i] = mesh_obj[i].GetComponent<MeshRenderer>();
             }
-            //mesh_renderer = true;
         }
         else
         {
@@ -38,7 +37,7 @@ public class weapon_mesh : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number)
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number])
         {
             if (mesh_renderer)
             {

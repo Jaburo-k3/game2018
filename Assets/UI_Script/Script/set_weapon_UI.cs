@@ -8,9 +8,11 @@ public class set_weapon_UI : MonoBehaviour {
     public Image[] weapon_UI;
     //public GameObject[] weapon_UI_gauge;
     void set_UI() {
+        /*
         for (int i = 0; i < assemble_status.my_weapon_number.Length; i++) {
             weapon_UI[i].sprite = weapon[assemble_status.my_weapon_number[i]];
         }
+        */
     }
 
 	// Use this for initialization

@@ -27,7 +27,7 @@ public class Game_over : MonoBehaviour {
             game_clear = true;
             game_status.game_clear = true;
         }
-        if (game_over) {
+        if (game_over && game_clear == false) {
             game_clear = false;
             game_status.game_clear = false;
 

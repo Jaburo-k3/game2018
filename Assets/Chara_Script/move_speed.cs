@@ -5,8 +5,8 @@ using UnityEngine;
 public class move_speed : MonoBehaviour {
     private chara_status Chara_status;
 
-    public float speed;//これに加算していく
-    public float speed_max;//スピード上限
+    public float[] speed = new float[2];//これに加算していく
+    public float[] speed_max = new float[2];//スピード上限
     public float acceleration;//加速度
     public float deceleration = 0.5f;//減速度
     public float boost_acceleration;//ブースト加速度
@@ -14,19 +14,21 @@ public class move_speed : MonoBehaviour {
     public float boost_speed_max;//ブースト時のスピード上限
     public float quick_boost_speed_max;//クイックブーストのスピード
     public float rising_speed;//上昇速度
-    public float qboost_cool_time = 0;//クイックブーストのクールタイム
+    public float[] qboost_cool_time = {0,0,0,0};//クイックブーストのクールタイム
     public float qboost_cool_time_const;//クールタイム定数
 
     public void set_up_speed() {
         chara_status Chara_status = this.GetComponent<chara_status>();
-        speed_max = Chara_status.speed_max;
+        speed_max[0] = Chara_status.speed_max;
+        speed_max[1] = Chara_status.speed_max;
         acceleration = Chara_status.acceleration;
         boost_acceleration = Chara_status.boost_acceleration;
         normal_speed_max = Chara_status.normal_speed_max;
         boost_speed_max = Chara_status.boost_speed_max;
         quick_boost_speed_max = Chara_status.quick_boost_speed_max;
         rising_speed = Chara_status.rising_speed;
-        speed = normal_speed_max;
+        speed[0] = normal_speed_max;
+        speed[1] = normal_speed_max;
         qboost_cool_time_const = Chara_status.qboost_cool_time_const;
     }
 

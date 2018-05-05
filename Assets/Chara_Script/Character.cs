@@ -28,12 +28,20 @@ public class Character : MonoBehaviour {
         LockOn = lockon_obj.GetComponent<lockon>();
         initial_Vec = transform.forward;
     }
-	
-	// Update is called once per frame
-	void Update () {
+    void FixedUpdate()
+    {
         mouse = R_stick_vec.stick_vec;
 
         transform.LookAt(new Vector3(this.transform.position.x + radius * Mathf.Sin((0.5f + mouse.x) * Mathf.PI), this.transform.position.y,
             this.transform.position.z - radius * Mathf.Cos((0.5f + mouse.x) * Mathf.PI)));
+    }
+        // Update is called once per frame
+        void Update () {
+        /*
+        mouse = R_stick_vec.stick_vec;
+
+        transform.LookAt(new Vector3(this.transform.position.x + radius * Mathf.Sin((0.5f + mouse.x) * Mathf.PI), this.transform.position.y,
+            this.transform.position.z - radius * Mathf.Cos((0.5f + mouse.x) * Mathf.PI)));
+        */
     }
 }

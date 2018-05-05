@@ -56,6 +56,9 @@ public class lockon_myposition : MonoBehaviour {
     {
         if (Camera.current.name == "Camera")
         {
+            if (this.gameObject.name == "enemy_player") {
+                Debug.Log("enemy");
+            }
             Lockon = Camera.current.gameObject.GetComponent<lockon>();
             if (!on_lockonrange(Camera.current.gameObject))
             {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class camera_angle : MonoBehaviour {
-    public GameObject target_obj;
     public Vector3 target_vec;
 
     public float angle_x;
@@ -72,11 +71,15 @@ public class camera_angle : MonoBehaviour {
         //Debug.Log(angle_y);
     }
 
+
+    void Awake()
+    {
+       Assem_Camera = this.GetComponent<assemble_camera>();
+        center_point = GameObject.Find("Player/center_point");
+    }
     // Use this for initialization
     void Start()
     {
-        Assem_Camera = this.GetComponent<assemble_camera>();
-        center_point = GameObject.Find("Player/center_point");
 
     }
 

@@ -203,6 +203,7 @@ public class assemble_weapon_manage : MonoBehaviour {
     
     //中心点更新
     void center_update() {
+        Debug.Log(weapon_slot);
         center_number = center_list[weapon_slot];
     }
     //全UIを見えなくする
@@ -235,12 +236,22 @@ public class assemble_weapon_manage : MonoBehaviour {
 
     //機体カメラ更新
     void camera_update() {
-        if (weapon_slot < assemble_status.my_weapon_number.Length)
+        int arm;
+        if (weapon_slot == 0 || weapon_slot == 2)
         {
-            Camera_Manage.camera_update(weapon_number);
+            arm = 0;
         }
         else {
-            Camera_Manage.camera_update(weapon.Length);
+            arm = 1;
+        }
+
+
+        if (!Exit_mode)
+        {
+            Camera_Manage.camera_update(weapon_number,arm);
+        }
+        else {
+            Camera_Manage.camera_update(weapon.Length,arm);
             //Debug.Log(weapon.Length);
         }
     }
@@ -258,7 +269,7 @@ public class assemble_weapon_manage : MonoBehaviour {
 
     //武器スロットのシルエット画像更新
     void slihoutte_update() {
-        Weapon_Sil.silhouette_update(weapon_slot,assemble_status.my_weapon_number[weapon_slot]);
+        Weapon_Sil.silhouette_update(weapon_slot);
     }
 
 
@@ -308,7 +319,7 @@ public class assemble_weapon_manage : MonoBehaviour {
         }
         mode_change = true;
 
-        W_FL_Up.backflame_update(mode_change);
+        //W_FL_Up.backflame_update(mode_change);
         weapon_number_update();
         set_weapon_list();
         set_indicate_list();
@@ -321,13 +332,14 @@ public class assemble_weapon_manage : MonoBehaviour {
         viewweapon_enable();
 
 
+
         camera_update();
 
         UI_enable();
 
-        SE.clip = SE_clip[2];
-        SE.volume = 0.75f;
-        SE.Play();
+        //SE.clip = SE_clip[2];
+        //SE.volume = 0.75f;
+        //SE.Play();
     }
 
     //武器タブクローズ
@@ -338,7 +350,7 @@ public class assemble_weapon_manage : MonoBehaviour {
         {
             weapon_number_update();
         }
-        W_FL_Up.backflame_update(mode_change);
+        //W_FL_Up.backflame_update(mode_change);
         all_W_UI_enable();
         weapon_enable();
         viewweapon_enable();
@@ -420,16 +432,16 @@ public class assemble_weapon_manage : MonoBehaviour {
     public void weapon_slot_move()
     {
 
-        if (weapon_slot > assemble_status.my_weapon_number.Length)
+        if (weapon_slot > assemble_status.my_weapon_number.Length - 1)
         {
             weapon_slot = 0;
         }
         else if (weapon_slot < 0)
         {
-            weapon_slot = assemble_status.my_weapon_number.Length;
+            weapon_slot = assemble_status.my_weapon_number.Length - 1;
         }
 
-        if (weapon_slot == 2)
+        if (weapon_slot == 2 || weapon_slot == 3)
         {
             shoulder_weapon_select = true;
         }
@@ -437,15 +449,36 @@ public class assemble_weapon_manage : MonoBehaviour {
             shoulder_weapon_select = false;
         }
 
+        center_update();
+
+        weapon_number_update();
 
 
+        set_weapon_list();
+        set_indicate_list();
+
+        weapon_enable();
+
+        viewweapon_enable();
+
+        text_update();
+
+        now_status_update(assemble_status.my_weapon_number[weapon_slot]);
+
+        save_status_update();
+
+        status_text_update(assemble_status.my_weapon_number[weapon_slot], false);
+
+        camera_update();
+
+        /*
         //Startボタンにいない
         if (weapon_slot < assemble_status.my_weapon_number.Length)
         {
             center_update();
 
-            W_FL_Up.flame_update(weapon_slot);
             weapon_number_update();
+
 
             set_weapon_list();
             set_indicate_list();
@@ -466,9 +499,10 @@ public class assemble_weapon_manage : MonoBehaviour {
         }
         //Startボタンにいる
         else {
-            W_FL_Up.flame_update(assemble_status.my_weapon_number.Length);
+            //W_FL_Up.flame_update(assemble_status.my_weapon_number.Length);
             camera_update();
         }
+        */
 
         SE.clip = SE_clip[1];
         SE.volume = 0.75f;
@@ -554,6 +588,18 @@ public class assemble_weapon_manage : MonoBehaviour {
     }
     //武器装備更新
     public void weapon_tab_decision() {
+        //new
+        my_weapon_number_update();
+        E_text_set();
+        slihoutte_update();
+        save_status_update();
+        status_text_update(weapon_number, true);
+
+        SE.clip = SE_clip[0];
+        SE.volume = 0.75f;
+        SE.Play();
+
+        /*
         if (E_weapon_search(weapon_number))
         {
             my_weapon_number_update();
@@ -571,6 +617,7 @@ public class assemble_weapon_manage : MonoBehaviour {
             SE.volume = 0.75f;
             SE.Play();
         }
+        */
     }
 
     //ステージロード
@@ -708,7 +755,6 @@ public class assemble_weapon_manage : MonoBehaviour {
     void Start () {
         
         W_UI_In = this.GetComponent<weapon_UI_indicate>();
-        W_FL_Up = this.GetComponent<weapon_flame_update>();
         As_Status = GameObject.Find("Assemble_manage").GetComponent<assemble_status>();
         As_W_En = GameObject.Find("Assemble_manage").GetComponent<assemble_weapon_enable>();
         Camera_Manage = camera_obj.GetComponent<camera_manage>();
@@ -723,19 +769,18 @@ public class assemble_weapon_manage : MonoBehaviour {
 
 
         all_W_UI_enable();
-        W_FL_Up.backflame_update(mode_change);
+        //W_FL_Up.backflame_update(mode_change);
         center_update();
 
 
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             weapon_slot = i;
             weapon_number_update();
-            slihoutte_update();
         }
 
         weapon_slot = 0;
-
+        slihoutte_update();
 
         weapon_number_update();
 
@@ -753,11 +798,90 @@ public class assemble_weapon_manage : MonoBehaviour {
 
         viewweapon_enable();
 
+
+
+        weapon_tab_open();
+
     }
 	// Update is called once per frame
 	void Update () {
 
         string input_button = crossorstick_buttondown_system();
+        if (input_button == "right")
+        {
+            if (!Exit_mode)
+            {
+                weapon_slot += 1;
+                weapon_slot_move();
+                weapon_tab_move();
+                slihoutte_update();
+            }
+            else {
+                start_UI_set();
+            }
+        }
+        else if (input_button == "left")
+        {
+            if (!Exit_mode)
+            {
+                weapon_slot -= 1;
+                weapon_slot_move();
+                weapon_tab_move();
+                slihoutte_update();
+            }
+            else {
+                start_UI_set();
+            }
+        }
+        else if (input_button == "up") {
+            if (!Exit_mode)
+            {
+                weapon_number += 1;
+                weapon_tab_move();
+            }
+        }
+        else if (input_button == "down")
+        {
+            if (!Exit_mode)
+            {
+                weapon_number -= 1;
+                weapon_tab_move();
+            }
+        }
+
+        if (Input.GetButtonDown("button2"))
+        {
+            if (!Exit_mode)
+            {
+                weapon_tab_decision();
+            }
+            else if (Exit_mode && Exit_Ui.Pop_state)
+            {
+                if (Exit_Ui.Exit_select)
+                {
+                    //stage_UI_set(Exit_Ui.Exit_select);
+                    stage_load(Stage_Select_UI.Stage_select);
+                }
+                else
+                {
+                    start_Exit();
+                    Exit_Ui.Exit_select = true;
+                    Exit_mode = false;
+
+                    SE.clip = SE_clip[3];
+                    SE.volume = 0.75f;
+                    SE.Play();
+                }
+            }
+        }
+        else if (Input.GetButtonDown("button9") && !Exit_mode) {
+            start_UI_open();
+            camera_update();
+        }
+
+
+        /*
+        //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
         //武器スロットチェンジ
         //武器スロット時の操作
         if (mode_change == false && Exit_mode == false && Stage_mode == false)
@@ -856,8 +980,21 @@ public class assemble_weapon_manage : MonoBehaviour {
             }
             else if (Input.GetButtonDown("button2") && Exit_Ui.Pop_state)
             {
-                //stage_UI_set(Exit_Ui.Exit_select);
-                stage_load(Stage_Select_UI.Stage_select);
+                if (Exit_Ui.Exit_select)
+                {
+                    //stage_UI_set(Exit_Ui.Exit_select);
+                    stage_load(Stage_Select_UI.Stage_select);
+                }
+                else
+                {
+                    start_Exit();
+                    Exit_Ui.Exit_select = true;
+                    Exit_mode = false;
+
+                    SE.clip = SE_clip[3];
+                    SE.volume = 0.75f;
+                    SE.Play();
+                }
             }
         }
 
@@ -875,5 +1012,6 @@ public class assemble_weapon_manage : MonoBehaviour {
                 
             }
         }
+        */
     }
 }

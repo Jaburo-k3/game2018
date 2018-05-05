@@ -6,7 +6,7 @@ public class Missile_Pod : MonoBehaviour {
     private GameObject parent;
     public GameObject missile;
     public GameObject missile_obj;
-    public Vector2 mouse = Vector2.zero;
+    public string button;
     public float delay;
 
 
@@ -45,7 +45,8 @@ public class Missile_Pod : MonoBehaviour {
     //発射許可
     private bool shot_permission()
     {
-        if (W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number] && 
+            W_status.shot_lock == false && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
         }
@@ -112,6 +113,14 @@ public class Missile_Pod : MonoBehaviour {
         Lockon = W_status.camera_obj.GetComponent<lockon>();
         W_switching = parent.GetComponent<weapon_switching>();
         attack = missile.GetComponent<Attack>();
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 
     // Update is called once per frame
@@ -126,11 +135,11 @@ public class Missile_Pod : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonDown("button4") && shot_permission())
+        if (Input.GetButtonDown(button) && shot_permission())
         {
             StartCoroutine(Missile());
         }
-        else if (Input.GetButton("button4") && W_switching.weapon_change && W_status.cool_time == 0)
+        else if (Input.GetButton(button) && W_switching.weapon_change && W_status.cool_time == 0 && shot_permission())
         {
             //Input.GetButton("button4") && W_switching.weapon_change && W_status.get_my_weapon_number() == W_switching.weapon_number && W_status.cool_time == 0
             StartCoroutine(Missile());

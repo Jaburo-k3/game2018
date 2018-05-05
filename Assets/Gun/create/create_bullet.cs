@@ -7,7 +7,7 @@ public class create_bullet : MonoBehaviour {
     private GameObject parent;
     public GameObject bullets;
     public GameObject bullet_obj;
-    public Vector2 mouse = Vector2.zero;
+    public string button;
 
     private int cool_time;
     private float cool_const;
@@ -46,7 +46,7 @@ public class create_bullet : MonoBehaviour {
     }
     //発射許可
     private bool shot_permission() {
-        if (W_status.get_my_weapon_number() == W_switching.weapon_number
+        if (W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number]
             && W_status.cool_time == 0 && W_status.bullet_counter >= W_status.bullet_one_shot)
         {
             return true;
@@ -69,7 +69,7 @@ public class create_bullet : MonoBehaviour {
     }
     //
     void C_bullet() {
-        if (!shot_permission() || (W_status.get_my_weapon_number() != W_switching.weapon_number && CC_bullet != null)) {
+        if (!shot_permission() || (W_status.get_my_weapon_number() != W_switching.weapon_number[W_status.my_arm_number] && CC_bullet != null)) {
             Debug.Log("cancel" + this.gameObject.name);
             StopCoroutine(CC_bullet);
             CC_bullet = null;
@@ -121,7 +121,14 @@ public class create_bullet : MonoBehaviour {
         AudioSource = gameObject.AddComponent<AudioSource>();
         AudioSource.clip = Bullet_sound;
         AudioSource.volume = 0.2f;
-        //Debug.Log(parent.name);
+
+        if (W_status.my_arm_number == 0)
+        {
+            button = "button5";
+        }
+        else {
+            button = "button4";
+        }
     }
 	
 	// Update is called once per frame
@@ -135,17 +142,16 @@ public class create_bullet : MonoBehaviour {
             }
         }
 
-        if (Input.GetButton("button5") && shot_permission() && CC_bullet == null)
+        if (Input.GetButton(button) && shot_permission() && CC_bullet == null)
         {
             CC_bullet = StartCoroutine(C_bullet_system());
         }
-        else if (Input.GetButtonUp("button5") && CC_bullet != null && W_status.get_my_weapon_number() == W_switching.weapon_number)
+        else if (Input.GetButtonUp(button) && CC_bullet != null && W_status.get_my_weapon_number() == W_switching.weapon_number[W_status.my_arm_number])
         {
             StopCoroutine(CC_bullet);
             CC_bullet = null;
             if (W_status.cool_time <= 0.0f)
             {
-                Debug.Log("cool_time");
                 W_status.cool_time = W_status.cool_const;
             }
         }

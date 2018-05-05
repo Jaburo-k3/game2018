@@ -971,6 +971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   my_weapon_number: 0
   attack: 50
+  bullet_speed: 0
   cool_time: 0
   cool_const: 60
   bullet_counter: 100
@@ -980,7 +981,9 @@ MonoBehaviour:
   reload_now: 0
   shot_lock: 0
   parent_obj: {fileID: 0}
+  camera_obj: {fileID: 0}
   parent_name: '25cn: base'
+  W_value_text: {fileID: 0}
 --- !u!114 &114709755475596318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -992,6 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2038317f367a2e544a759d0463139159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   bullets: {fileID: 1383389847966130, guid: 3fb3c43366babe449acb8a8ce4d77c30, type: 2}
   bullet_obj: {fileID: 0}
   mouse: {x: 0, y: 0}

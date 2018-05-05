@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class PlayerMotion : MonoBehaviour {
     private Animator animator;
-    private Player_move player_move;
     private chara_status Chara_status;
     public GameObject[] L_arm;
     public GameObject[] R_arm;
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
-        player_move = this.gameObject.GetComponent<Player_move>();
         Chara_status = this.GetComponent<chara_status>();
 	}
 	
@@ -64,7 +62,7 @@ public class PlayerMotion : MonoBehaviour {
     void LateUpdate() {
         L_arm[0].transform.localRotation = new Quaternion(R_arm[0].transform.localRotation.x, R_arm[0].transform.localRotation.y, R_arm[0].transform.localRotation.z * -1f, R_arm[0].transform.localRotation.w);
         L_arm[1].transform.localRotation = R_arm[1].transform.localRotation;
-        L_arm[2].transform.localRotation = new Quaternion(R_arm[2].transform.localRotation.x, R_arm[2].transform.localRotation.y * -1, R_arm[2].transform.localRotation.z, R_arm[2].transform.localRotation.w);
+        L_arm[2].transform.localRotation = new Quaternion(R_arm[2].transform.localRotation.x, 0, R_arm[2].transform.localRotation.z, R_arm[2].transform.localRotation.w);
         L_arm[3].transform.localRotation = R_arm[3].transform.localRotation;
         //arm.transform.localRotation = Quaternion.Euler(-10.0f, 0.0f, 0.0f);
     }
