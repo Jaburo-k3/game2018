@@ -12,6 +12,8 @@ public class L_Stick_Vec : MonoBehaviour {
 
     public bool stick_lock = false;
 
+    private HP hp;
+
     private float Clamp_S;//マウスy軸の最低値
     private float Clamp_E;//マウスy軸の最高値
 
@@ -20,6 +22,10 @@ public class L_Stick_Vec : MonoBehaviour {
         stick_vec.y = Mathf.Clamp(stick_vec.y, Clamp_S, Clamp_E);
     }
 
+
+    void Awake() {
+        hp = this.GetComponent<HP>();
+    }
 
     // Use this for initialization
     void Start()
@@ -32,6 +38,10 @@ public class L_Stick_Vec : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (hp.get_hp() <= 0)
+        {
+            return;
+        }
         if (stick_lock == false)
         {
             stick_vec = new Vector2(Input.GetAxis("Horizontal") * -1, Input.GetAxis("Vertical") );

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class enemy_equip_weapon : MonoBehaviour {
     private enemy_weapon_status Weapon_Status;
+    private enemy_shot_control E_S_control;
     //private weapon_UI Weapon_UI;
     public int[] my_weapon_number = new int[4];
 
-    public GameObject[] weapon;
     public GameObject[] R_weapon;
     public GameObject[] L_weapon;
     public GameObject[,] E_weapon = new GameObject[2, 2];
@@ -17,8 +17,8 @@ public class enemy_equip_weapon : MonoBehaviour {
     //public GameObject camera_obj;
 
 
-    public GameObject[] Weapon_text;
-    private weapon_value_text[] Weapon_value_text = new weapon_value_text[2];
+    //public GameObject[] Weapon_text;
+    //private weapon_value_text[] Weapon_value_text = new weapon_value_text[2];
 
     public void set_parent(GameObject child, int arm_number)
     {
@@ -65,6 +65,7 @@ public class enemy_equip_weapon : MonoBehaviour {
         Weapon_Status = E_weapon[arm_number, slot_number].GetComponent<enemy_weapon_status>();
         Weapon_Status.my_weapon_number = slot_number;
         Weapon_Status.my_arm_number = arm_number;
+        Weapon_Status.E_S_control = E_S_control;
         //Weapon_Status.camera_obj = camera_obj;
         Vector3 x = E_weapon[arm_number, slot_number].transform.localScale;
         Vector3 y = E_weapon[arm_number, slot_number].transform.localEulerAngles;
@@ -73,6 +74,7 @@ public class enemy_equip_weapon : MonoBehaviour {
         E_weapon[arm_number, slot_number].transform.localPosition = E_weapon[arm_number, slot_number].transform.position;
         E_weapon[arm_number, slot_number].transform.localScale = x;
         E_weapon[arm_number, slot_number].transform.localEulerAngles = y;
+
     }
 
     /*
@@ -84,6 +86,7 @@ public class enemy_equip_weapon : MonoBehaviour {
         Weapon_UI.getcomponet();
     }
     */
+    /*
     public void set_weapon_value(int arm_number, int number)
     {
         if (arm_number == 1)
@@ -99,11 +102,25 @@ public class enemy_equip_weapon : MonoBehaviour {
         }
 
     }
+    */
+
     // Use this for initialization
     void Start()
     {
-        Weapon_value_text[0] = Weapon_text[0].GetComponent<weapon_value_text>();
-        Weapon_value_text[1] = Weapon_text[1].GetComponent<weapon_value_text>();
+        for (int i = 0; i < my_weapon_number.Length; i++) {
+            int number;
+            if (i < 2)
+            {
+                number = Random.RandomRange(0, 4);
+            }
+            else {
+                number = Random.RandomRange(4, 8);
+            }
+            my_weapon_number[i] = number;
+        }
+        E_S_control = this.GetComponent<enemy_shot_control>();
+        //Weapon_value_text[0] = Weapon_text[0].GetComponent<weapon_value_text>();
+        //Weapon_value_text[1] = Weapon_text[1].GetComponent<weapon_value_text>();
 
         //右腕
         set_weapon(0, 0, 0);

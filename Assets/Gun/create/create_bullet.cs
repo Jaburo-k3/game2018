@@ -13,7 +13,6 @@ public class create_bullet : MonoBehaviour {
     private float cool_const;
 
     public GameObject muzzle;
-    public float spinSpeed = 1.0f;
     private Aiming_system A_sys;
     private lockon Lockon;//変更点
     private weapon_status W_status;

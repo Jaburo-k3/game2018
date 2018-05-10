@@ -144,9 +144,8 @@ MonoBehaviour:
   camera: {fileID: 0}
   bullets: {fileID: 1688476200680128, guid: d16fd8fadf900fa4c9e1c913a7916176, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   muzzle: {fileID: 1084572676115182}
-  spinSpeed: 1
   Bullet_sound: {fileID: 8300000, guid: c946f57c7b2ff4d42aa3264eb349c556, type: 3}
 --- !u!114 &114415761892303418
 MonoBehaviour:
@@ -160,11 +159,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 0
+  my_arm_number: 0
   attack: 10
   bullet_speed: 400
   cool_time: 0
   cool_const: 0.5
-  bullet_counter: 80
+  bullet_counter: 100
   bullet_one_shot: 1
   reload_type: 0
   reload_time: 1

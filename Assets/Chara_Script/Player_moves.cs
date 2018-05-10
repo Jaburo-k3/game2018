@@ -97,7 +97,6 @@ public class Player_moves : MonoBehaviour {
      Vector3 rising_move(Vector3 vec,float magnification) {
         float inclination = Mathf.Sqrt(L_stick_vec.stick_vec.x * L_stick_vec.stick_vec.x + L_stick_vec.stick_vec.y * L_stick_vec.stick_vec.y);
         vec.y =    magnification * (Move_Speed.rising_speed * (1.0f - inclination/2));
-        Debug.Log(magnification * (Move_Speed.rising_speed * (1.0f - inclination / 2)));
         return vec;
     }
     void speed_deceleration() {

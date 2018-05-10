@@ -8,9 +8,16 @@ public class Game_over : MonoBehaviour {
     public GameObject Player;
     //private animation_test A_T;
     public int enemy_number;
+    int step = 1;
     public bool game_clear = false;
     public bool game_over = false;
 
+    public GameObject[] enemy;
+
+    void create_enemy(int number)
+    {
+        GameObject enemy_obj = Instantiate(enemy[number], enemy[number].transform.position, Quaternion.identity);
+    }
     public void Game_Over() {
 
     }
@@ -24,8 +31,18 @@ public class Game_over : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (enemy_number <= 0) {
-            game_clear = true;
-            game_status.game_clear = true;
+            if (step == 1)
+            {
+                step = 2;
+                create_enemy(0);
+            }
+            else {
+                if (!game_over)
+                {
+                    game_clear = true;
+                    game_status.game_clear = true;
+                }
+            }
         }
         if (game_over && game_clear == false) {
             game_clear = false;

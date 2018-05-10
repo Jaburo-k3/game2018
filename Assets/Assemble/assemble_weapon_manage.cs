@@ -751,9 +751,8 @@ public class assemble_weapon_manage : MonoBehaviour {
 
         return null;
     }
-    // Use this for initialization
-    void Start () {
-        
+
+    void Awake() {
         W_UI_In = this.GetComponent<weapon_UI_indicate>();
         As_Status = GameObject.Find("Assemble_manage").GetComponent<assemble_status>();
         As_W_En = GameObject.Find("Assemble_manage").GetComponent<assemble_weapon_enable>();
@@ -766,6 +765,10 @@ public class assemble_weapon_manage : MonoBehaviour {
         Exit_Ui = this.GetComponent<Exit_UI>();
         Stage_Select_UI = this.GetComponent<stage_select_UI>();
         SE = this.gameObject.AddComponent<AudioSource>();
+    }
+    // Use this for initialization
+    void Start () {
+       
 
 
         all_W_UI_enable();
@@ -879,6 +882,10 @@ public class assemble_weapon_manage : MonoBehaviour {
             camera_update();
         }
 
+        if (Input.GetButtonDown("button1") && !Exit_mode) {
+            Destroy(BGM);
+            SceneManager.LoadScene("title_world");
+        }
 
         /*
         //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

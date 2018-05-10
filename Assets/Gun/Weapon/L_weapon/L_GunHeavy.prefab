@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullets: {fileID: 1771747411559826, guid: 4e5018a8c218c8c4ca99cfea2411af97, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   burst: 3
   burst_time: 0.15
   muzzle: {fileID: 1035247365921366}
@@ -143,11 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 2
+  my_arm_number: 0
   attack: 5
   bullet_speed: 600
   cool_time: 0
   cool_const: 0.15
-  bullet_counter: 400
+  bullet_counter: 500
   bullet_one_shot: 1
   reload_type: 1
   reload_time: 3

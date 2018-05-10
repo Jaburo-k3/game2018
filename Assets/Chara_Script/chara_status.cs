@@ -34,6 +34,7 @@ public class chara_status : MonoBehaviour {
 
     public string[] moving_state = {null,"wait"};
     public bool quick_boost = false;
+    public int quick_turn = 2;
 
     public bool bullet_hit = false;
 

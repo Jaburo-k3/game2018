@@ -27,7 +27,7 @@ public class enemy_move : MonoBehaviour {
     private move_speed Move_Speed;
     private enemy_damage_count E_damage_count;
 
-    // パスと、座標リスト。使い回す
+    //ルート探索
     NavMeshPath path = null;
     Vector3[] positions;
     int currentPositionIndex = 0;
@@ -188,7 +188,6 @@ public class enemy_move : MonoBehaviour {
             positions = new Vector3[path.corners.Length];
             path.GetCornersNonAlloc(positions);
         }
-        Debug.Log(positions.Length);
         currentPositionIndex = 0;
         save_goal = goal.transform.position;
         if (positions.Length > 1)
@@ -207,24 +206,13 @@ public class enemy_move : MonoBehaviour {
         Chara_Status = this.GetComponent<chara_status>();
         Move_Speed = this.GetComponent<move_speed>();
         E_damage_count = this.GetComponent<enemy_damage_count>();
+        goal = GameObject.Find("Player").transform;
     }
     void Start()
     {
 
         // パスの計算
         root_update();
-        /*
-        Vector3 goal_pos = goal.transform.position;
-        Vector3 start_pos = start.transform.position;
-        goal_pos.y = 0;
-        start_pos.y = 0;
-        NavMesh.CalculatePath(start_pos, goal_pos, NavMesh.AllAreas, path);
-        positions = new Vector3[path.corners.Length];
-        path.GetCornersNonAlloc(positions);
-        save_goal = goal.transform.position;
-        save_distance = Vector3.Distance(enemy.transform.position, positions[0]);
-        cube_obj = Instantiate(cube, positions[0], Quaternion.identity);
-        */
     }
     void Update() {
 
@@ -235,7 +223,6 @@ public class enemy_move : MonoBehaviour {
 
         if (Vector3.Distance(enemy_pos, targetPosition) < 1f)
         {
-            Debug.Log("change_pos");
             if (currentPositionIndex + 1 < positions.Length) {
                 currentPositionIndex = currentPositionIndex + 1;
                 targetPosition = positions[currentPositionIndex];
@@ -246,18 +233,11 @@ public class enemy_move : MonoBehaviour {
         }
         if (save_distance - Vector3.Distance(enemy.transform.position, targetPosition) < -0.5f)
         {
-            Debug.Log("save = " + save_distance);
-            Debug.Log("new = " + Vector3.Distance(enemy.transform.position, targetPosition));
-            Debug.Log("new system");
             root_update();
         }
         else if (save_distance - Vector3.Distance(enemy.transform.position, targetPosition) > 0)
         {
-            Debug.Log("before_distance_update = " + save_distance);
-            Debug.Log("save = " + save_distance);
-            Debug.Log("new = " + Vector3.Distance(enemy.transform.position, targetPosition));
             save_distance = Vector3.Distance(enemy.transform.position, targetPosition);
-            Debug.Log("distance_update = " + save_distance);
         }
         //ターゲットを見る
         Vector3 look_pos = goal.transform.position;

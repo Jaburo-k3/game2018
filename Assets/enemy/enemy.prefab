@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4924265407034118}
   - component: {fileID: 131883699825445556}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: lockon_maker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0227c246245eb4698e1222c8b1b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 5
+  attack: 2
   bullets: {fileID: 1067559776399756, guid: 4406bef64a3d3854698ffae23afbd84c, type: 2}
   bullet_obj: {fileID: 0}
   gun: {fileID: 1076080769770968}
@@ -1368,6 +1368,7 @@ MonoBehaviour:
   - 
   - wait
   quick_boost: 0
+  quick_turn: 2
   bullet_hit: 0
   camera_obj: {fileID: 0}
   lockon_range: 0
@@ -1488,7 +1489,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 25
+  m_Radius: 40
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136526193337532280
 CapsuleCollider:

@@ -1007,7 +1007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
+  m_AnchoredPosition: {x: 0, y: -300}
   m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &118264044
@@ -1364,6 +1364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 0
+  my_arm_number: 0
   attack: 5
   bullet_speed: 0
   cool_time: 0
@@ -1392,7 +1393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missile: {fileID: 1235601036084954, guid: 9b37047325d467642b350f8391e52b20, type: 2}
   missile_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   delay: 0.1
   muzzle:
   - {fileID: 942454779}
@@ -9489,6 +9490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 0
+  my_arm_number: 0
   attack: 10
   bullet_speed: 0
   cool_time: 0
@@ -9518,9 +9520,8 @@ MonoBehaviour:
   camera: {fileID: 0}
   bullets: {fileID: 1688476200680128, guid: d16fd8fadf900fa4c9e1c913a7916176, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   muzzle: {fileID: 1246916974}
-  spinSpeed: 1
   Bullet_sound: {fileID: 0}
 --- !u!95 &516872848
 Animator:
@@ -10441,8 +10442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullets: {fileID: 1236000914359054, guid: 7f6d85f1a6a554845913f9e4212f8e55, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
-  test: {fileID: 1275004515705550, guid: 31cd085bd146bce46a9ffb6d9b40400a, type: 2}
+  button: 
   burst: 10
   burst_time: 0.1
   muzzle:
@@ -10515,6 +10515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 0
+  my_arm_number: 0
   attack: 2
   bullet_speed: 0
   cool_time: 0
@@ -10596,9 +10597,8 @@ MonoBehaviour:
   camera: {fileID: 0}
   bullets: {fileID: 1210361660113716, guid: 361f7ea3de76bc1419973eb5ae2eed03, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   muzzle: {fileID: 654169766}
-  spinSpeed: 1
   Bullet_sound: {fileID: 0}
 --- !u!114 &611054854
 MonoBehaviour:
@@ -10613,6 +10613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 1
+  my_arm_number: 0
   attack: 30
   bullet_speed: 0
   cool_time: 0
@@ -11858,7 +11859,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
+  m_AnchoredPosition: {x: 0, y: -300}
   m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &784963609
@@ -16283,6 +16284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 2
+  my_arm_number: 0
   attack: 5
   bullet_speed: 0
   cool_time: 0
@@ -16326,7 +16328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullets: {fileID: 1771747411559826, guid: 4e5018a8c218c8c4ca99cfea2411af97, type: 2}
   bullet_obj: {fileID: 0}
-  mouse: {x: 0, y: 0}
+  button: 
   burst: 3
   burst_time: 0.15
   muzzle: {fileID: 1517198482}
@@ -23371,6 +23373,7 @@ MonoBehaviour:
   missile: {fileID: 1001706357997460, guid: c045d50155849984fa2e8ab6e1cc098d, type: 2}
   missile_obj: {fileID: 0}
   target: {fileID: 0}
+  button: 
   multiple_firing: 4
   delay: 0.2
   muzzle:
@@ -23416,6 +23419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 1
+  my_arm_number: 0
   attack: 1
   bullet_speed: 0
   cool_time: 0
@@ -23794,6 +23798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1210361660113716, guid: 361f7ea3de76bc1419973eb5ae2eed03, type: 2}
   bullet_obj: {fileID: 0}
+  button: 
   shot_time: 1
   shot_now: 0
   muzzle:
@@ -23814,6 +23819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_weapon_number: 2
+  my_arm_number: 0
   attack: 30
   bullet_speed: 0
   cool_time: 0
@@ -24375,7 +24381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1712783108
 RectTransform:
   m_ObjectHideFlags: 0

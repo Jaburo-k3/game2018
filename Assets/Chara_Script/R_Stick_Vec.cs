@@ -15,11 +15,15 @@ public class R_Stick_Vec : MonoBehaviour {
     private float Clamp_S;//Lスティックy軸の最低値
     private float Clamp_E;//Lスティックy軸の最高値
 
+    private HP hp;
 
     public void vec_limit() {
         stick_vec.y = Mathf.Clamp(stick_vec.y, Clamp_S, Clamp_E);
     }
 
+    void Awake() {
+        hp = this.GetComponent<HP>();
+    }
 
     // Use this for initialization
     void Start () {
@@ -32,6 +36,9 @@ public class R_Stick_Vec : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (hp.get_hp() <= 0) {
+            return;
+        }
         if (stick_lock == false)
         {
             stick_vec += new Vector2(Input.GetAxis("Horizontal2") * -1, Input.GetAxis("Vertical2") * -1) * Time.deltaTime * spinSpeed;

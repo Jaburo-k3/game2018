@@ -35,7 +35,6 @@ public class camera : MonoBehaviour {
     private lockon Lockon;
 
     public GameObject player_obj;
-    private Player_move player_move;
 
     private HP hp;
 
@@ -46,7 +45,7 @@ public class camera : MonoBehaviour {
 
     public GameObject center_point;
 
-
+    private chara_status Chara_status;
 
 
     public Camera camera_obj;
@@ -58,117 +57,6 @@ public class camera : MonoBehaviour {
     private float Clamp_S = 0.05f;//マウスy軸の最低値
     private float Clamp_E = 0.75f;//マウスy軸の最高値
 
-
-
-    IEnumerator camera_move()
-    {
-        player_move.gravity_lock = true;
-        Vector3 C_move_vec = Vector3.zero;
-
-        //Vector3 look_point;
-
-        if (mode_snipe == false)
-        {
-            look_point = Aim.hit.point;
-        }
-        else {
-            look_point = ray_hit.point;
-        }
-        while (true) {
-            yield return new WaitForSeconds(0.0001f);
-            float distance;
-            //移動距離測定
-            if (mode_snipe == false)
-            {
-                //C_move_vec = (player_obj.transform.position - transform.position) / 10;
-
-                //C_move_vec = (player_obj.transform.position - transform.position) * Time.deltaTime * 6f;前
-                C_move_vec = (center_point.transform.position - transform.position) * Time.deltaTime * 6f;
-                distance = Vector3.Distance(center_point.transform.position, transform.position);
-                if (distance < 0.05)
-                {
-                    transform.position = center_point.transform.position;
-                }
-            }
-            else if(mode_snipe == true){
-                //C_move_vec = (save_pos - transform.position) / 10;
-                C_move_vec = (save_pos - transform.position) * Time.deltaTime * 6f;
-                distance = Vector3.Distance(save_pos, transform.position);
-                if (distance < 0.05)
-                {
-                    transform.position = save_pos;
-                }
-            }
-
-            //カメラズーム
-            if (mode_snipe == false)
-            {
-                camera_obj.fieldOfView -= 2f;
-            }
-            else if(mode_snipe == true){
-                camera_obj.fieldOfView += 2.5f;
-            }
-
-            if (camera_obj.fieldOfView <= 20) {
-                camera_obj.fieldOfView = 20;
-            }
-            if (camera_obj.fieldOfView >= 60) {
-                camera_obj.fieldOfView = 60;
-            }
-
-
-            //移動終了
-            if (mode_snipe == false && transform.position == center_point.transform.position)
-            {
-                Debug.Log("move_end");
-                mode_snipe = true;
-
-                camera_lock = false;
-
-                camera_lock = false;
-
-                R_stick_vec.spinSpeed = 0.25f;
-
-                R_stick_vec.stick_lock = false;
-
-                Lockon.lockon_lock = true;
-
-                player_move.move_lock = true;
-                player_move.gravity_lock = false;
-
-                camera_move_now = false;
-
-                break;
-            }
-            else if (mode_snipe == true && transform.position == save_pos)
-            {
-
-                mode_snipe = false;
-
-                camera_lock = false;
-
-                camera_lock = false;
-
-                R_stick_vec.spinSpeed = 0.75f;
-
-                R_stick_vec.stick_lock = false;
-
-                Lockon.lockon_lock = false;
-
-                player_move.move_lock = false;
-                player_move.gravity_lock = false;
-
-                camera_move_now = false;
-
-                break;
-            }
-
-
-            //カメラ移動
-            transform.position += C_move_vec;
-            transform.LookAt(look_point);
-        }
-    }
     // Use this for initialization
     void Start()
     {
@@ -179,7 +67,6 @@ public class camera : MonoBehaviour {
         R_stick_vec = R_stick_obj.GetComponent<R_Stick_Vec>();
         Lockon = lockon_obj.GetComponent<lockon>();
         Aim = Aim_obj.GetComponent<Aiming_system>();
-        player_move = player_obj.GetComponent<Player_move>();
         hp = player_obj.GetComponent<HP>();
         Chara_Status = player_obj.GetComponent<chara_status>();
 
@@ -197,7 +84,10 @@ public class camera : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        stick_vec = R_stick_vec.stick_vec;
+        if (hp.get_hp() > 0)
+        {
+            stick_vec = R_stick_vec.stick_vec;
+        }
         pos.x = Mathf.Sin(stick_vec.y * Mathf.PI) * radius * Mathf.Cos(stick_vec.x * Mathf.PI);
         pos.y = Mathf.Cos(stick_vec.y * Mathf.PI);
         pos.z = Mathf.Sin(stick_vec.y * Mathf.PI) * radius * Mathf.Sin(stick_vec.x * Mathf.PI);

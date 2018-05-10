@@ -19,7 +19,7 @@ public class enemy_type2 : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         Enemy_weapon_status = this.GetComponent<enemy_weapon_status>();
         destination = agent.destination;
-        agent.speed = 5f;
+        agent.speed = 20f;
     }
 
     void Update()

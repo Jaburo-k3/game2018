@@ -7,6 +7,7 @@ public class Homing_Missile : MonoBehaviour {
     private float speed = 20.0f;    
     private float rotSpeed = 180.0f;  // 1秒間に回転する角度
 
+    public float destroy_time;
 
     public Vector3 nowPos;
     public Vector3 pos = Vector3.zero;
@@ -93,6 +94,14 @@ public class Homing_Missile : MonoBehaviour {
         }
         //Debug.DrawRay(ray.origin, ray.direction, Color.red);
     }
+
+    IEnumerator destroy() {
+        yield return new WaitForSeconds(destroy_time);
+        Destroy(Child_obj.gameObject);
+        create_blast(transform.position);
+        Destroy(this.gameObject);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -114,6 +123,8 @@ public class Homing_Missile : MonoBehaviour {
         ray_vec = transform.forward;
 
         ignore_layer = ~(1 << gameObject.layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
+
+        StartCoroutine(destroy());
     }
 
     // Update is called once per frame

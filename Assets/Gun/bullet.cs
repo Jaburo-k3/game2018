@@ -37,7 +37,62 @@ public class bullet : MonoBehaviour {
             this.transform.DetachChildren();
             Destroy(this.gameObject);
         }
+        /*
+        if (other.tag == "enemy" || other.tag == "Player")
+        {
+            AudioSource.Play();
+            GameObject parent = other.transform.root.gameObject;
+            if (parent == null)
+            {
+                parent = other.gameObject;
+            }
+            Hp = parent.gameObject.GetComponent<HP>();
+            Hp.set_hp(Hp.get_hp() - attack.attack);
+            //ヒットマーカーの作成
+            if (permission_hit_marker)
+            {
+                C_Hit_Marker.create(hit.point);
+            }
+            //AudioSource.Play();
+        }
+        */
+        destroy_pos = other.transform.position;
     }
+    /*
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "enemy" || other.tag == "Player")
+        {
+            AudioSource.Play();
+            GameObject parent = other.transform.root.gameObject;
+            if (parent == null)
+            {
+                parent = other.gameObject;
+            }
+            Hp = parent.gameObject.GetComponent<HP>();
+            Hp.set_hp(Hp.get_hp() - attack.attack);
+            //ヒットマーカーの作成
+            if (permission_hit_marker)
+            {
+                C_Hit_Marker.create(hit.point);
+            }
+            //AudioSource.Play();
+        }
+        destroy_pos = other.transform.position;
+        //オブジェクトと衝突した位置
+        //子オブジェクトを探し親子関係を探し衝突した位置に移動
+        foreach (Transform child in transform)
+        {
+            child.transform.position = destroy_pos;
+        }
+        //親子関係解除
+        transform.DetachChildren();
+
+
+
+        Destroy(this.gameObject);
+        Debug.Log("hit");
+    }
+    */
 
     //■■■前フレームの位置と現在の位置の間にオブジェクトがないか探す■■■
     void obj_search()
@@ -50,6 +105,7 @@ public class bullet : MonoBehaviour {
         {
             if (hit.collider.tag == "enemy" || hit.collider.tag == "Player")
             {
+                Debug.Log("ray");
                 AudioSource.Play();
                 GameObject parent = hit.transform.root.gameObject;
                 if (parent == null)
@@ -66,6 +122,7 @@ public class bullet : MonoBehaviour {
             }
             destroy_pos = hit.point;//オブジェクトと衝突した位置
 
+            Debug.Log(hit.collider.name);
             //子オブジェクトを探し親子関係を探し衝突した位置に移動
             foreach (Transform child in transform)
             {

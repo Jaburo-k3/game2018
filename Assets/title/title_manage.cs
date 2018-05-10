@@ -56,13 +56,13 @@ public class title_manage : MonoBehaviour {
 
     void mode_number_limit()
     {
-        if (mode_number >= 3)
+        if (mode_number > 1)
         {
             mode_number = 0;
         }
         else if (mode_number < 0)
         {
-            mode_number = 2;
+            mode_number = 1;
         }
     }
 
@@ -72,7 +72,7 @@ public class title_manage : MonoBehaviour {
     public void ranking_world() {
         if (button == false)
         {
-            StartCoroutine(world_change("rankingall_world"));
+            StartCoroutine(world_change("ranking_world"));
         }
     }
     public void assemble_world() {
@@ -122,9 +122,6 @@ public class title_manage : MonoBehaviour {
             }
             else if (mode_number == 1)
             {
-                tutorial_world();
-            }
-            else if (mode_number == 2) {
                 ranking_world();
             }
         }

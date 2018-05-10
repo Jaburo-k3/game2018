@@ -16,7 +16,7 @@ public class ranking_end : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("button1")) {
+        if (Input.GetButtonDown("button1") || Input.GetButtonDown("button2") || Input.GetButtonDown("button9")) {
             go_title();
         }
 	}

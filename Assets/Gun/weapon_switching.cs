@@ -75,7 +75,7 @@ public class weapon_switching : MonoBehaviour {
 	void Start () {
         Change_AudioSource = gameObject.AddComponent<AudioSource>();
         Change_AudioSource.clip = Change_sound;
-        Change_AudioSource.volume = 0.5f;
+        Change_AudioSource.volume = 0.3f;
         //Debug.Log("Input");
         E_weapon = this.GetComponent<equip_weapon>();
 
@@ -83,6 +83,9 @@ public class weapon_switching : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        cross_buttondown_system();
+        if (this.gameObject.tag == "Player")
+        {
+            cross_buttondown_system();
+        }
 	}
 }

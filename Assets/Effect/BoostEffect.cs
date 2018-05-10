@@ -10,11 +10,14 @@ public class BoostEffect : MonoBehaviour {
     public GameObject[] boostLight_Lbackpack = new GameObject[2];
     public GameObject[] boostLight_Rbackpack = new GameObject[2];
     public GameObject[] quickboostside = new GameObject[2];
+    public GameObject[] quick_turn_Light = new GameObject[2];
     private chara_status Chara_status;
 
     Coroutine Q_boost_effect_cor;
     Coroutine Q_boostside_effect_cor;
+    Coroutine Q_turn_effect_cor;
     public GameObject player;
+
 
     IEnumerator Q_boost_effect()
     {
@@ -67,6 +70,16 @@ public class BoostEffect : MonoBehaviour {
 
 
     }
+    IEnumerator Q_trun_effect()
+    {
+        quick_turn_Light[0].SetActive(false);
+        quick_turn_Light[1].SetActive(false);
+        quick_turn_Light[Chara_status.quick_turn].SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        quick_turn_Light[0].SetActive(false);
+        quick_turn_Light[1].SetActive(false);
+        Q_turn_effect_cor = null;
+    }
     // Use this for initialization
     void Start () {
         boostLight[0].SetActive(false);
@@ -81,6 +94,8 @@ public class BoostEffect : MonoBehaviour {
         boostLight_Rbackpack[1].SetActive(false);
         quickboostside[0].SetActive(false);
         quickboostside[1].SetActive(false);
+        quick_turn_Light[0].SetActive(false);
+        quick_turn_Light[1].SetActive(false);
         //player = GameObject.Find("Player");
         Chara_status = player.GetComponent<chara_status>();
 	}
@@ -123,6 +138,10 @@ public class BoostEffect : MonoBehaviour {
             boostLight_Rleg[0].SetActive(Boost);
             boostLight_Lbackpack[0].SetActive(Boost);
             boostLight_Rbackpack[0].SetActive(Boost);
+        }
+        if (Chara_status.quick_turn != 2 && Q_turn_effect_cor ==  null)
+        {
+            Q_turn_effect_cor = StartCoroutine(Q_trun_effect());
         }
     }
 }

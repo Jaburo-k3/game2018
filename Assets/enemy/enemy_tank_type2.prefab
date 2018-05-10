@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 114703669105860590}
   - component: {fileID: 114463526546277028}
   - component: {fileID: 114460450705678922}
+  - component: {fileID: 114569466370907272}
   m_Layer: 12
   m_Name: enemy_tank_type2
   m_TagString: enemy
@@ -883,6 +884,22 @@ GameObject:
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 1
+--- !u!1 &1652775352015066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4307186694101298}
+  - component: {fileID: 131827976855007142}
+  m_Layer: 5
+  m_Name: lockon_maker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1663904663207414
 GameObject:
   m_ObjectHideFlags: 1
@@ -1326,6 +1343,7 @@ Transform:
   - {fileID: 4537728920039012}
   - {fileID: 4763265905620804}
   - {fileID: 224778604446773968}
+  - {fileID: 4307186694101298}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1600,6 +1618,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4840064967697436}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4307186694101298
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652775352015066}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -135.33331, y: -9.299998, z: -206.36333}
+  m_LocalScale: {x: 0.24999996, y: 0.24999996, z: 0.24999996}
+  m_Children: []
+  m_Father: {fileID: 4051227386966634}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4314258039767012
 Transform:
@@ -4269,6 +4300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target_obj: {fileID: 0}
   target: {fileID: 0}
+  move_permission: 1
 --- !u!114 &114460450705678922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4298,6 +4330,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 50
+  boost_energy: 0
+  boost_energy_max: 0
+  speed_max: 0
+  acceleration: 0
+  boost_acceleration: 0
+  normal_speed_max: 0
+  boost_speed_max: 0
+  quick_boost_speed_max: 0
+  qboost_cool_time_const: 0
+  boost_consume_energy: 0
+  quick_boost_consume_energy: 0
+  boost_recovery_speed: 0
+  rising_speed: 0
+  Terrain_State: 
+  normalspeed: 0
+  boostspeed: 0
+  boost_max_speed: 0
+  hover: 0
+  ground_condition: 
+  move_stun: 0
+  move_lock: 0
+  moving_state:
+  - 
+  - wait
+  quick_boost: 0
+  quick_turn: 2
+  bullet_hit: 0
+  camera_obj: {fileID: 0}
+  lockon_range: 0
+--- !u!114 &114569466370907272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1374881625927424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 952a2839b0b9df347b997ab963f13154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  gui: {fileID: 1652775352015066}
+  Tex: {fileID: 0}
 --- !u!114 &114617109505120488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4325,12 +4400,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc15a6d4f6ec154ca9629ee5dfde500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  my_weapon_number: 0
+  my_arm_number: 0
+  bullet_speed: 0
   attack: 10
   cool_time: 0
   cool_const: 120
   parent_obj: {fileID: 0}
   target: {fileID: 0}
+  parent_name: 
   target_lock: 0
+  shot_permission: 0
+  E_S_control: {fileID: 0}
 --- !u!114 &114764381623114764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4363,6 +4444,25 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!131 &131827976855007142
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652775352015066}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 362e4c0da35105946a2e5440d0004eb4, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.241}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!195 &195613354299104316
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -4372,7 +4472,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -4380,8 +4480,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 3.5
-  m_BaseOffset: 1.75
+  m_Height: 4
+  m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!222 &222572347809673348

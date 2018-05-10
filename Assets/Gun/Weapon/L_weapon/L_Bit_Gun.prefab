@@ -146,7 +146,6 @@ MonoBehaviour:
   bullet_obj: {fileID: 0}
   button: 
   muzzle: {fileID: 1020065050113638}
-  spinSpeed: 1
   Bullet_sound: {fileID: 8300000, guid: c946f57c7b2ff4d42aa3264eb349c556, type: 3}
 --- !u!114 &114070637049037902
 MonoBehaviour:
@@ -165,7 +164,7 @@ MonoBehaviour:
   bullet_speed: 400
   cool_time: 0
   cool_const: 0.5
-  bullet_counter: 80
+  bullet_counter: 100
   bullet_one_shot: 1
   reload_type: 0
   reload_time: 1

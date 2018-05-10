@@ -13,6 +13,7 @@ public class assemble_camera : MonoBehaviour {
     Vector3 pos = Vector3.zero;
     public Vector2 angle = Vector2.zero;
     public Vector2 save_angle = Vector2.zero;
+    public Vector2 save_add_angle = Vector2.zero;
     Vector2 test_vec;
 
     public Coroutine Cor;
@@ -89,9 +90,13 @@ public class assemble_camera : MonoBehaviour {
             angle += new Vector2(Input.GetAxis("Mouse X") * -1, Input.GetAxis("Mouse Y")) * Time.deltaTime * spinSpeed;
         }
         if (camera_lock == false) {
+            Debug.Log("test");
             angle -= add_angle * Time.deltaTime * 2f;
+            save_add_angle -= add_angle * Time.deltaTime * 2f;
             //Debug.Log(x);
         }
+
+
         if (angle.x < -2.0f)
         {
             angle.x = 0;
@@ -99,6 +104,7 @@ public class assemble_camera : MonoBehaviour {
         else if (angle.x > 2.0f) {
             angle.x = 0;
         }
+        
         //angle.y += x * Time.deltaTime;
         angle.y = Mathf.Clamp(angle.y, Clamp_S, Clamp_E);
         /*

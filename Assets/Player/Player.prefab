@@ -17707,7 +17707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb49056236e99d648af2b292162a7e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 400
+  HP: 500
   boost_energy: 0
   boost_energy_max: 100
   speed_max: 10
@@ -17733,6 +17733,7 @@ MonoBehaviour:
   - 
   - wait
   quick_boost: 0
+  quick_turn: 2
   bullet_hit: 0
   camera_obj: {fileID: 0}
   lockon_range: 75
@@ -17781,6 +17782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 918652134a51a6e4dacead0af1f5eb8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  back: 0
 --- !u!114 &114156462250757902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18082,6 +18084,9 @@ MonoBehaviour:
   quickboostside:
   - {fileID: 1128364213763396}
   - {fileID: 1263805916056692}
+  quick_turn_Light:
+  - {fileID: 0}
+  - {fileID: 0}
   player: {fileID: 1592096980000424}
 --- !u!114 &114432063751391972
 MonoBehaviour:
@@ -18126,7 +18131,6 @@ MonoBehaviour:
   bullet_obj: {fileID: 0}
   button: 
   muzzle: {fileID: 1503186961217488}
-  spinSpeed: 1
   Bullet_sound: {fileID: 0}
 --- !u!114 &114512473842534998
 MonoBehaviour:
@@ -18415,7 +18419,6 @@ MonoBehaviour:
   bullet_obj: {fileID: 0}
   button: 
   muzzle: {fileID: 1568873761485290}
-  spinSpeed: 1
   Bullet_sound: {fileID: 0}
 --- !u!114 &114796816375932174
 MonoBehaviour:
@@ -18658,7 +18661,6 @@ MonoBehaviour:
   bullet_obj: {fileID: 0}
   button: 
   muzzle: {fileID: 1599470373637444}
-  spinSpeed: 1
   Bullet_sound: {fileID: 0}
 --- !u!124 &124219825949872746
 Behaviour:

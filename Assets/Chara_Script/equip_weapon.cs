@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class equip_weapon : MonoBehaviour {
     private weapon_status Weapon_Status;
     private weapon_UI Weapon_UI;
@@ -74,10 +74,10 @@ public class equip_weapon : MonoBehaviour {
         Weapon_Status.W_value_text = Weapon_value_text[arm_number];
     }
 
-    public void set_UI(int arm_number,int slot_number) {
+    public void set_UI(int arm_number, int slot_number) {
         Weapon_UI = weapon_UI_gauge[arm_number].GetComponent<weapon_UI>();
 
-        Weapon_UI.status_obj = E_weapon[arm_number,slot_number];
+        Weapon_UI.status_obj = E_weapon[arm_number, slot_number];
         Weapon_UI.getcomponet();
     }
     public void set_weapon_value(int arm_number,int number) {

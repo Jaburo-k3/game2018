@@ -40,7 +40,6 @@ public class assemble_weapon_enable : MonoBehaviour {
     }
     public void weapon_enable(int weapon_slot)
     {
-        Debug.Log("weapon_enable");
         R_weapon_enable();
         L_weapon_enable();
     }
@@ -49,13 +48,11 @@ public class assemble_weapon_enable : MonoBehaviour {
         {
             if (E_R_weapon.Contains(R_weapon[i]))
             {
-                Debug.Log("true");
                 R_weapon[i].SetActive(true);
             }
 
 
             else {
-                Debug.Log("false");
                 R_weapon[i].SetActive(false);
             }
         }
@@ -66,11 +63,9 @@ public class assemble_weapon_enable : MonoBehaviour {
         {
             if (E_L_weapon.Contains(L_weapon[i]))
             {
-                Debug.Log("true");
                 L_weapon[i].SetActive(true);
             }
             else {
-                Debug.Log("false");
                 L_weapon[i].SetActive(false);
             }
         }

@@ -6,12 +6,14 @@ public class qucik_turn : MonoBehaviour {
     private L_Stick_Vec L_stick_vec;
     private R_Stick_Vec R_stick_vec;
     private chara_status Chara_status;
+
+    Rigidbody rb;
     float turn_time = 0.25f;
     bool turn_now = false;
     string turn_direction;
     float turn_value;
 
-
+    public float back;
     GameObject camera_obj;
 
     string R_stick_direction() {
@@ -27,15 +29,18 @@ public class qucik_turn : MonoBehaviour {
     IEnumerator quick_turn_move() {
         if (turn_direction == "left")
         {
+            Chara_status.quick_turn = 1;
             turn_value = R_stick_vec.stick_vec.x + 1f;
         }
         else {
+            Chara_status.quick_turn = 0;
             turn_value = R_stick_vec.stick_vec.x - 1f;
         }
         turn_now = true;
         Chara_status.move_lock = true;
         R_stick_vec.stick_lock = true;
         yield return new WaitForSeconds(turn_time);
+        Chara_status.quick_turn = 2;
         turn_now = false;
         Chara_status.move_lock = false;
         R_stick_vec.stick_lock = false;
@@ -43,11 +48,16 @@ public class qucik_turn : MonoBehaviour {
     }
     void FixedUpdate() {
     }
-    // Use this for initialization
-    void Start () {
+
+    void Awake() {
+        rb = this.GetComponent<Rigidbody>();
         L_stick_vec = this.GetComponent<L_Stick_Vec>();
         R_stick_vec = this.GetComponent<R_Stick_Vec>();
         Chara_status = this.GetComponent<chara_status>();
+    }
+    // Use this for initialization
+    void Start () {
+       
         //camera_obj = this.transform.FindChild("Camera").gameObject;
     }
 	
@@ -74,6 +84,7 @@ public class qucik_turn : MonoBehaviour {
                     R_stick_vec.stick_vec.x = turn_value;
                 }
             }
+            rb.AddForce(new Vector3(this.transform.forward.x * back * -1, 0, this.transform.forward.z * back * -1));
         }
     }
 }

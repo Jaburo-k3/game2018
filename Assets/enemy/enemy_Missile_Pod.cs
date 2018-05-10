@@ -19,16 +19,6 @@ public class enemy_Missile_Pod : MonoBehaviour {
     public bool shot_now = false;
 
 
-    public int get_cool_const()
-    {
-        return cool_const;
-    }
-    public void set_cool_const(int value)
-    {
-        cool_const = value;
-    }
-
-
     //発射許可
     private bool shot_permission()
     {
